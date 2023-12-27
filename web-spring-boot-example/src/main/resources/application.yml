@@ -1,0 +1,27 @@
+server:
+  port: 8000
+spring:
+ application:
+    name:  web-spring-boot-example
+
+web:
+  exception:
+    enabled: true
+    message: 请联系管理员
+  xss:
+    enabled: true
+#  i18n:
+  cors:
+  response:
+    enabled: true
+  validation:
+    enabled: true
+  sqlinjection:
+    enabled: true
+  dict:
+    enabled: true
+  log:
+    enabled: true
+  sensitive:
+    enabled: true
+  jdk8time:

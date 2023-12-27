@@ -1,0 +1,39 @@
+web-spring-boot-starter 1.x Changelog
+===================================
+Changes in version 1.0.1
+---------------------------------------------
+* Remove aspectjweaver dependency
+* Using spring aopalliance to override application log interception processing
+* Override dictionary escape interception processing with spring aopalliance
+* Fix bug dictionary escape annotation interception can only be handled at the controller layer
+* New initialization spring thread configuration
+---------------------------------------------
+Changes in version 1.0.0
+---------------------------------------------
+* It is the version modified to 1.0.0
+* Fix bug response. If it is responseentity, it will not wrap the result set and return it directly
+* Add parameter encryption and decryption processing
+* Add dictionary escape map processing
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

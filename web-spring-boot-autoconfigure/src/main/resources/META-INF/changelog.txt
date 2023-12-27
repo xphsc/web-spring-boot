@@ -1,0 +1,137 @@
+web-spring-boot-starter 1.x Changelog
+===================================
+Changes in version 1.2.0
+---------------------------------------------
+* add base62 encryption tool
+* Add system related information tools
+* Add custom string element range constraint annotations and other validations
+---------------------------------------------
+Changes in version 1.1.8
+---------------------------------------------
+*Remove Sun package dependencies to facilitate support for jdk9 and above versions
+*Repair application operation log obtaining parameter spring boot 7 version null pointer
+*Add the implementation of zero configuration dynamic proxy and register it in the Spring container
+---------------------------------------------
+Changes in version 1.1.7
+---------------------------------------------
+*Thread tool class construction
+*Information class construction in the current stack
+*Enumeration class construction
+---------------------------------------------
+Changes in version 1.1.6
+---------------------------------------------
+* Add Implementation of new policy dynamic call mode
+* Add Extended Collection Class time Type Conversion
+* Add Extended other Class
+---------------------------------------------
+Changes in version 1.1.5
+---------------------------------------------
+* Fix bug The filter HttpServletRequest invalid
+---------------------------------------------
+Changes in version 1.1.4
+---------------------------------------------
+* Parameter validation customizable configuration properties
+* Fix bugs Multiple enumerated log data comparisons are repeated
+---------------------------------------------
+Changes in version 1.1.3
+---------------------------------------------
+* Modify I18N injection mode
+* Event push distinguishes synchronous or asynchronous reception by type
+* Upgrade to jackson-datatype-jsr310 2.12.4.
+---------------------------------------------
+Changes in version 1.1.2
+---------------------------------------------
+* Fix bug that operation log interception exception does not record operation log
+---------------------------------------------
+Changes in version 1.1.1
+---------------------------------------------
+* Fix bug The filter handles the problem that HttpServletRequest is empty
+* Fix bug handling records the operation log by exception, and the exception message causes the general exception to fail
+---------------------------------------------
+Changes in version 1.1.0
+---------------------------------------------
+* Add configuration environment encryption
+* Add dynamic log comparison data separator
+* Fix bug Fix the bug. Unable to log error log problem
+---------------------------------------------
+Changes in version 1.0.8
+---------------------------------------------
+* Remove response and print test log
+* Add the escape of getting object annotation @LogTransMapping log comparison through OperationLogContext
+---------------------------------------------
+Changes in version 1.0.7
+---------------------------------------------
+* Add Custom enumeration @inEnum verification and Implementation
+* Add dictionary mapping entity @DictEntity annotation
+* Add  log trans mapping @LogTransMapping annotation
+---------------------------------------------
+Changes in version 1.0.6
+---------------------------------------------
+* Add restBuilderTemplate to build spring based restTemplate
+* Add the spring restTemplate load balancing annotation @loadBalanced
+* Add public collection operation
+* Modify event annotation @ EventListener type to synchronize event listening
+---------------------------------------------
+Changes in version 1.0.5
+---------------------------------------------
+* Fix bug Fix the bug. Get the log field description and value comma separator through the logfield annotation
+* New log field value desensitization
+---------------------------------------------
+Changes in version 1.0.4
+---------------------------------------------
+* Fix bug Validation is compatible with hibernate-validator 6.1.0. Version above final
+* Fix bug When there is no web Servlet dependency crypto is not initialized by default
+---------------------------------------------
+Changes in version 1.0.3
+---------------------------------------------
+* Add custom parameter validation annotation
+* Fix bug log comparison and ignore the same data
+* Fix bug XSS filter returns the filter exception by default. The parameter is null and null pointer
+* Fix bug sqlInjection filter returns the filter exception by default. The parameter is null and null pointer
+---------------------------------------------
+Changes in version 1.0.2
+---------------------------------------------
+* New simplified sending and listening events and messages
+* New simplified tree structure generation mechanism
+* Add log annotation parameter content # and add description
+* Repair crypto encryption
+* Fix some bugs
+---------------------------------------------
+
+Changes in version 1.0.1
+---------------------------------------------
+* Remove aspectjweaver dependency
+* Using spring aopalliance to override application log interception processing
+* Override dictionary escape interception processing with spring aopalliance
+* Fix bug dictionary escape annotation interception can only be handled at the controller layer
+* New initialization spring thread configuration
+---------------------------------------------
+Changes in version 1.0.0
+---------------------------------------------
+* It is the version modified to 1.0.0
+* Fix bug response. If it is responseentity, it will not wrap the result set and return it directly
+* Add parameter encryption and decryption processing
+* Add dictionary escape map processing
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

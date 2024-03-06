@@ -23,13 +23,7 @@ public class OperationLogEventListener implements ApplicationListener<OperationL
     public void onApplicationEvent(OperationLogEvent operationLogEvent) {
         OperationLog operationLog = operationLogEvent.getOperationLog();
     }
-### 实现用户标识等（比如，ID,用户名）也可以不用实现在日志接收监听获取设置
-public class LogUserHandler implements UserHandler {
-    @Override
-    public String user() {
 
-    }
-}
 ### 通过注解LogField记录日志
 ~~~~
 public class SysUserDTO {

@@ -10,9 +10,9 @@
 **web Spring Boot低耦合集成的高度扩展组件**
  ### web Spring Boot低耦合集成的高度扩展组件
 * cors（跨域配置）、crypto（参数以及加解密）、csrf（csrf攻击）、dict(字典转义)、exception(通用异常)、i18n、 jdk8time 、
-* log(应用日志)、response(通用结果返回)、sensitive(数据脱敏) 、event消息推送
-* sqlInjection(SQL注入) 、threadpool(通用线程配置) 、validation(参数验证)、 xss(xss过滤) rest(调用)、 envencrypt（配置文件加密）
-* tree（注解树构造）、strategy（策略模式）、 通用工具
+* log(应用日志)、response(通用结果返回)、sensitive(数据脱敏) 、event消息推送 、 sqlInjection(SQL注入)
+* apiversion（api 版本) 、threadpool(通用线程配置) 、validation(参数验证)、 xss(xss过滤) rest(调用)、 envencrypt（配置文件加密）
+* tree（注解树构造）、strategy（策略模式）、logbackandlog4j2-sensitive sensitive（日志脱敏） 、 通用工具
 
 
 #### 安装教程
@@ -20,7 +20,15 @@
  <dependency>
  <groupId>cn.xphsc.boot</groupId>
     <artifactId>web-spring-boot-starter</artifactId>
-    <version>1.2.0</version>
+    <version>2.0.0</version>
+ </dependency>
+~~~
+spring boot3以上版本
+~~~
+ <dependency>
+ <groupId>cn.xphsc.boot</groupId>
+    <artifactId>web-spring-boot-starter</artifactId>
+    <version>3.x</version>
  </dependency>
 ~~~
 
@@ -41,4 +49,6 @@
 13. [rest](doc/rest.md)
 14. [event](doc/event.md)
 15. [strategy](doc/strategy.md)
+16. [logbackandlog4j2-sensitive](doc/logbackandlog4j2-sensitive.md)
+17. [apiversion](doc/apiversion.md)
 

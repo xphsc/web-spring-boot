@@ -1,26 +1,19 @@
 ### 简介
 * 通过@ApiVersion注释，多版本api，支持uri、header、param。
+## 特性
+- **支持url**: URI:  /v1/test
+- **支持header**: - Header: /test, header: API-VERSION=1
+- **支持Param**: Param:  /test?api_version=1
 
-## 
-- URI:  /v1/test
-- Header: /test, header: API-VERSION=1
-- Param:  /test?api_version=1
-
-
-
-## 使用详情
-1.在 springboot 默认的yml或者Properties文件中配置
-默认开启yml
-```
-web:
- apiversion:
- enabled: true
-```
-Properties
-```
-web.apiversion.enabled=true
-``` 
-2. spring boot 2.6-2.7 配置实训  RequestMappingPathPatternParserHandler
+## 快速开始
+1**配置属性**: 在你的 `application.properties` 或 `application.yml` 中配置缓存的属性。
+application.yml 示例:
+   ```yaml
+   web:
+     apiversion:
+       enabled: true
+  ```
+2. **使用 apiversion**: 在你的 Sspring boot 2.6-2.7 配置示例  RequestMappingPathPatternParserHandler实例并使用(3.0.x默认)。
 ```
 @Component
  public class ApiVersionRequestMappingPathPatternParserHandler implements RequestMappingPathPatternParserHandler{
@@ -30,8 +23,7 @@ RequestMappingInfo.BuilderConfiguration builderConfiguration=new RequestMappingI
 builderConfiguration.setPatternParser(requestMappingHandlerMapping.getPatternParser());
  return builderConfiguration;}}
 ```
-
-4. Controller
+3. Controller 使用示例
 ```
     ```
     @RestController
@@ -45,7 +37,4 @@ builderConfiguration.setPatternParser(requestMappingHandlerMapping.getPatternPar
         }
    
     }
-```
-
-
 ```

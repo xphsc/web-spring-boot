@@ -1,13 +1,13 @@
-基于SpringBoot、Spring表达式语言 (SpEL)、annotation的操作日志
+### 简介
+* 基于SpringBoot、Spring表达式语言 (SpEL)、annotation的操作日志
 
 ### 简介
 * 使用annotation来标注方法，标记操作内容
 * 使用SpEL来动态生成操作日志内容，使操作日志记录更加详细（记录操作内容ID等关键信息）
 * 同一个方法，不同类型用户（admin，user等）使用时，获取不同的操作者
 
-#### 使用详情
-1.在 springboot 默认的yml或者Properties文件中配置
-  默认开启yml
+## 快速开始
+1**配置属性**: 在你的 `application.properties` 或 `application.yml` 中配置缓存的属性。
 ```
 web:
  log
@@ -16,15 +16,16 @@ web:
 Properties
 ```
 web.log.enabled=true
-
-###实现日志接收监听
+~~
+2. **实现日志接收监听。
+~~~
 public class OperationLogEventListener implements ApplicationListener<OperationLogEvent> {
     @Override
     public void onApplicationEvent(OperationLogEvent operationLogEvent) {
         OperationLog operationLog = operationLogEvent.getOperationLog();
     }
-
-### 通过注解LogField记录日志
+~~~
+3.  通过注解LogField记录日志
 ~~~~
 public class SysUserDTO {
     /**
@@ -68,6 +69,7 @@ public class SysUserDTO {
     @Phone
     private String phoneNumber;}
 ~~~~
+4.  controller通过注解LogField记录日志
 ~~~~
 public class SysUserController {
     @PatchMapping("updateUser")
@@ -82,7 +84,7 @@ public class SysUserController {
 
 }
 
-###自定义content内容
+5. 自定义content内容
 ~~~
  @PatchMapping("resetPassword")
     @ApiOperation(value = "通过id修改重置密码")

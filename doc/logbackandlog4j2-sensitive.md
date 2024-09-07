@@ -4,14 +4,13 @@
 
 
 
-## 使用详情
+## logback.xml使用详情
 指定 logback.xml 配置
 ~~~
 <encoder class=cn.xphsc.web.logger.logback.sensitive.SensitivePatternLayoutEncoder>
 在 配置需要脱敏的Key idcard,idNo,phone 等 <sensitiveData>
 <sensitiveData> 
 ~~~
-
 
 例子
 ```
@@ -79,3 +78,84 @@
     </root>
 </configuration>
 ```
+## log4j使用详情
+~~~
+<?xml version="1.0" encoding="UTF-8"?>
+<!--日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
+<!--Configuration后面的status，这个用于设置log4j2自身内部的信息输出，可以不设置，当设置成trace时，你会看到log4j2内部各种详细输出-->
+<!--monitorInterval：Log4j能够自动检测修改配置 文件和重新配置本身，设置间隔秒数-->
+<Configuration status="INFO" monitorInterval="240">
+    <Properties>
+        <Property name="filePath">./logs</Property>
+        <Property name="commonPattern">%highlight{【%X{reqId}】【%X{remoteAddr}】[%d{yyyy.MM.dd HH:mm:ss,sss z}] [%p] [%t]
+            [%l] :%m%n}
+        </Property>
+    </Properties>
+    <!--先定义所有的输出源-->
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <!--&lt;!&ndash;控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）&ndash;&gt;-->
+            <ThresholdFilter level="INFO"
+                             onMatch="ACCEPT"
+                             onMismatch="DENY"/>
+            <log4jSensitivePatternLayout pattern="${commonPattern}" header="${header}">
+                <log4jSensitivePatternlaces>
+                    <keys>certificateNo</keys>
+                </log4jSensitivePatternlaces>
+            </log4jSensitivePatternLayout>
+        </Console>
+
+        <!-- 这个会打印出所有的info及以下级别的信息，每次时间超过1天、大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
+        <RollingFile name="INFOLOG"
+                     fileName="${filePath}/info.log"
+                     filePattern="${filePath}/archive/%d{yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log.gz">
+            <Filters>
+                <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+                <ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL"/>
+            </Filters>
+            <log4jSensitivePatternLayout pattern="${commonPattern}" header="${header}">
+                <log4jSensitivePatternlaces>
+                    <keys>certificateNo,certificate</keys>
+                </log4jSensitivePatternlaces>
+            </log4jSensitivePatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="99999"></DefaultRolloverStrategy>
+        </RollingFile>
+
+
+        <RollingFile name="ERRORLOG"
+                     fileName="${filePath}/error.log"
+                     filePattern="${filePath}/archive/%d{yyyy-MM}/error-%d{yyyy-MM-dd}-%i.log.gz">
+            <Filters>
+                <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+                <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+
+            <log4jSensitivePatternLayout pattern="${commonPattern}" header="${header}">
+                <log4jSensitivePatternlaces>
+                    <keys>certificateNo,certificate,cardtelno</keys>
+                </log4jSensitivePatternlaces>
+            </log4jSensitivePatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="99999"></DefaultRolloverStrategy>
+        </RollingFile>
+        
+    </Appenders>
+    <Loggers>
+        <Root level="INFO">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="INFOLOG"/>
+            <appender-ref ref="ERRORLOG"/>
+            <appender-ref ref="ALLLOG"/>
+        </Root>
+    </Loggers>
+</Configuration>
+
+~~~

@@ -17,3 +17,8 @@ web.validation.enabled=true
    @ResponseResult
    public class TestModelController {}
 ~~~
+## 自定义Response结果类
+~~~
+ @ResponseResult(responseClass=Result.class,responseOk = "ok")
+   public class TestModelController {}
+~~~

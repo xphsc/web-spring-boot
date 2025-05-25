@@ -7,6 +7,13 @@ web:
      exception:
        enabled: true
 ```
+自定义异常
+~~~
+web:
+ exception:
+   exceptionClassName:
+    -com.x.x.xxx exception
+~~~
 Properties
 ```
 web.exception.enabled=true

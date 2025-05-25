@@ -1,0 +1,84 @@
+### 简介
+* tools 覆盖全面工具
+## 特性
+- **common**: 通用公共工具
+- **utils**: 通用公共工具集合
+
+## 快速开始
+1. common工具
+  - 1.1 BeanByMapper
+    - bean 拷贝工具
+  - 1.2 collect  集合工具
+      - Collections：  集合工具
+      - Iterators：  集合迭代工具
+      - Lists： list工具
+      - Maps：  map工具
+      - MapSorts：   map排序工具
+      - Queues：     队列工具
+      - Sets:        set工具
+      - Sorts:       集合排序工具
+  - 1.3 context  spring 上下文工具
+     - SpringContextHolder
+  - 1.4 exception  异常工具
+     - Exceptions 异常工具
+  - 1.5 lang  通用lang工具
+     - awt:  Fonts字体工具  Images 图片工具类
+     - codec:  Base16 Base32  Base64  工具类
+     - constant:  Constants Letters  常量工具类
+     - crypto:  AES Caesars DES DES3 RC4 RSA 加密工具类
+     - date:  Dates  Dates8 时间工具类
+     - hash:  Hashes 哈希工具类
+     - id:  Ids Sequences SnowFlakes UUID  id生成器
+     - io:  Files Streams  文件流工具
+     - loader:  ServiceLoaders   SPI 服务加载工具类
+     - math:  BigDecimals   BigIntegers  计算工具类
+     - mutable:  MutableBoolean   MutableByte  MutableDouble  MutableFloat MutableInt MutableLong MutableObject MutableShort MutableString 可变基础类型
+     - net:  IPs   Urls  net工具
+     - reflect:  ClassLoaders   Fields  Methods Reflects Types  反射工具类
+     - regexp:  Matches   Patterns   匹配工具类
+     - string:  StringJoiner   StringJoiner工具类
+     - system:  Server   Server工具类
+     - thread:  ExecutorBuilder   NamedThreadFactory  ThreadFactoryBuilder 线程工具类
+     - type:  ConvertTypes 类型转换工具类
+     - unit:  DistStorageUnit LengthUnit WeightUnit 计量工具类
+   
+  - 1.6 retry  通用retry工具
+      - RetryTemplate 重试工具模板
+  - 1.7 servlet  通用servlet工具
+      - HttpServletRequestWrapperBuilder  servlet工具  
+  - 1.8 spring  通用spring工具
+    - AnnotationUtils  annotation工具
+    - BeanRegistrarUtils  bean注册工具
+    - ProxyTargets  代理工具
+    - ValueResolverUtils  工具
+2. utils工具
+ - function:  Builders 构建工具  Conditionals  条件判断工具 Functions 工具 Lambdas获取字段 Optionals  Streams  集合流式工具
+ - AesUtils  aes加密工具
+ - ArrayUtils  数组工具
+ - Asserts  辅助验证参数的断言工具
+ - Base62Utils  Base62工具
+ - Base64Utils  Base64工具
+ - ByteUtils  字节工具
+ - Charsets  字符集工具
+ - ClassUtils 类工具
+ - CollectionUtils 集合工具
+ - ContextHolderUtil  HttpServlet上下文工具
+ - Enums  枚举工具
+ - HexUtils  HEX工具
+ - IoUtils  io工具
+ - IpUtils  ip工具
+ - JacksonUtils  json工具
+ - NumberUtils  Number工具
+ - ObjectUtils  对象工具
+ - PropertiesUtils  对象添加项工具
+ - PropertyUtils  对象项设置值工具
+ - RandomUtils  随机数工具
+ - ReflectUtils  反射工具
+ - RsaUtils  rsa工具
+ - SerializationUtils  序列化工具
+ - Stacks  栈工具
+ - StringUtils  字符串工具
+ - Systems  系统工具
+ - Threads  线程工具
+ - XssUtils xss工具
+ - ZipUtils zip工具

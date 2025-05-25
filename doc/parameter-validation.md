@@ -25,8 +25,13 @@ public class TestModelController {
 }
 ~~~
 ##支持自定义注解
-~~~
-@Chinese(是否中文验证) @CollectNotNull(验证集合中是否有空元素) @Date(时间验证) @IdCard(身份证)
- @Identification(身份证件（身份证、居民证、护照、回乡证、台胞证、港澳通行证等）) @LettersOrNumber(是否数字or字母)
-@Matches(两个字段一致) @Money(金额) @Number(数字) @Phone(手机号) @PropertyScriptAssert(脚本验证)
-~~~
+- @Chinese(是否中文验证) 
+- @CollectNotNull(验证集合中是否有空元素) 
+- @Date(时间验证) @IdCard(身份证)
+- @Identification(身份证件（身份证、居民证、护照、回乡证、台胞证、港澳通行证等）) 
+- @LettersOrNumber(是否数字or字母)
+- @Matches(两个字段一致)
+- @Money(金额)
+- @Number(数字) 
+- @Phone(手机号) 
+- @PropertyScriptAssert(脚本验证)

@@ -9,3 +9,34 @@
 
 ## 快速开始
 1**使用 statemachine**: 在你的 Spring Boot 应用中 `statemachine` 实例并使用。
+1.1 创建枚举
+~~~~
+    public   enum WarehouseState {
+        EMPTY, FULL
+    }
+
+    /**
+     * 定义库位事件：取走，放入
+     */
+    public  enum WarehouseEvent {
+        TAKE_AWAY, PUT_IN
+    }
+~~~~
+1.2 使用状态机
+~~~
+StateMachineBuilder<WarehouseState, StateMachineImplTest.WarehouseEvent, Object> fsmBuilder = StateMachineBuilderFactory.create("库位状态机");
+        fsmBuilder.transition()
+                .from(WarehouseState.EMPTY)
+                .to(WarehouseState.FULL)
+                .on(WarehouseEvent.PUT_IN)
+                .when(c -> c != null)
+                .then((start, end, event, context) -> {
+                    if(!context.equals("context")) {
+                        System.out.println(String.format("sourceState:%s，targetState：%s,event:%s,context:%s", start, end, event, context));
+                    }
+                });
+
+        StateMachine<WarehouseState, WarehouseEvent, Object> stateMachine = fsmBuilder.build();
+       WarehouseState S1 = stateMachine.fire(WarehouseState.EMPTY, WarehouseEvent.PUT_IN, "context");
+        Assertions.assertTrue(S1 == WarehouseState.FULL);
+~~~

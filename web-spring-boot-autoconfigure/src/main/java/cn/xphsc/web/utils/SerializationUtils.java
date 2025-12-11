@@ -58,7 +58,6 @@ public class SerializationUtils {
                 }
 
             }
-
             return (T) var5;
         }
     }

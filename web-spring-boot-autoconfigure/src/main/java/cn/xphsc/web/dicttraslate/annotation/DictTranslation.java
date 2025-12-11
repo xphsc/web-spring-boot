@@ -33,4 +33,5 @@ import java.lang.annotation.*;
 public @interface DictTranslation {
 
     Class<? extends DictTransHandler> dictTransHandler() ;
+
 }

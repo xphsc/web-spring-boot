@@ -16,11 +16,13 @@
 package cn.xphsc.web.common.lang.io;
 
 import cn.xphsc.web.common.exception.Exceptions;
+import cn.xphsc.web.common.exception.IORuntimeException;
 import cn.xphsc.web.common.lang.constant.Constants;
 import cn.xphsc.web.common.lang.constant.Letters;
 import cn.xphsc.web.common.lang.id.UUID;
 import cn.xphsc.web.common.lang.io.file.FileAttribute;
 import cn.xphsc.web.common.lang.regexp.Matches;
+import cn.xphsc.web.utils.ClassUtils;
 import cn.xphsc.web.utils.NumberUtils;
 import cn.xphsc.web.utils.StringUtils;
 import cn.xphsc.web.utils.Systems;
@@ -39,6 +41,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 
+import static cn.xphsc.web.common.lang.constant.Constants.CLASSPATH_PREFIX;
 
 
 /**
@@ -79,6 +82,35 @@ public class Files {
     public static File newFile(String file) {
         return new File(getPath(file));
     }
+    public static File create(String source) {
+        if (StringUtils.isBlank(source)) {
+            throw new NullPointerException("File path is blank!");
+        }
+        return new File(absolutePath(source,null));
+    }
+
+    public static File create(File file) throws IORuntimeException {
+        if (null == file) {
+            return null;
+        }
+        if (false == file.exists()) {
+            File parentFile = file.getParentFile();
+            mkdirs(parentFile);
+            try {
+                file.createNewFile();
+            } catch (Exception e) {
+                throw new IORuntimeException(e);
+            }
+        }
+        return file;
+    }
+    public static File create(File parent, String source) {
+        if (StringUtils.isBlank(source)) {
+            throw new NullPointerException("File path is blank!");
+        }
+        return new File(parent, source);
+    }
+
 
     // -------------------- attr --------------------
 
@@ -957,6 +989,7 @@ public class Files {
         return path.mkdirs();
     }
 
+
     /**
      * 创建文件夹
      *
@@ -970,6 +1003,23 @@ public class Files {
         } catch (IOException e) {
             return false;
         }
+    }
+    public static File createMkdirs(String source) {
+        if (StringUtils.isBlank(source)) {
+            return null;
+        }
+        final File dir = create(source);
+        return createMkdirs(dir);
+    }
+
+    public static File createMkdirs(File file) {
+        if (file == null) {
+            return null;
+        }
+        if (false == file.exists()) {
+            file.mkdirs();
+        }
+        return file;
     }
 
     public static boolean delete(String file) {
@@ -1528,7 +1578,13 @@ public class Files {
         }
         return java.nio.file.Files.newInputStream(file);
     }
-
+    public static BufferedInputStream inputStream(File file) throws IORuntimeException {
+        try {
+            return new BufferedInputStream(new FileInputStream(file));
+        } catch (IOException e) {
+            throw new IORuntimeException(e);
+        }
+    }
     public static OutputStream openOutputStreamFastSafe(String file) {
         try {
             return openOutputStreamFast(Paths.get(file), false);
@@ -1961,7 +2017,26 @@ public class Files {
     public static String getParentPath(File file) {
         return file.getParent();
     }
+    public static String getParentPath(String parent, File file) {
+        if (StringUtils.isEmpty(parent)) {
+            return null;
+        }
+        String subPath = null;
+        try {
+            subPath = file.getCanonicalPath();
+        } catch (IOException e) {
+            throw new IORuntimeException(e);
+        }
+        if (StringUtils.isNotEmpty(parent) && StringUtils.isNotEmpty(subPath)) {
+            parent = normalize(parent);
+            subPath = normalize(subPath);
 
+            if (subPath != null && StringUtils.startsWith(subPath, subPath, true)) {
+                subPath = subPath.substring(parent.length() + 1);
+            }
+        }
+        return subPath;
+    }
     /**
      * 获取所有文件上级路径
      *
@@ -2340,9 +2415,35 @@ public class Files {
     }
 
 
+    public static String absolutePath(String source, Class<?> clazz) {
+        if (StringUtils.isBlank(source)) {
+            source = StringUtils.EMPTY;
+        } else {
+            source = normalize(source);
+            if (isAbsolutePath(source)) {
+                // the path is absolute path
+                return source;
+            }
+        }
 
+        // to compatible spring classpath, remove prefix of "classpath:"
+        source = StringUtils.removePrefix(source,CLASSPATH_PREFIX, true);
+        source = StringUtils.removePrefix(source, Constants.SLASH, false);
 
-
+        // the relative path to ClassPath
+        final URL url = ClassUtils.url(source, clazz);
+        if(null != url){
+            return url.getPath();
+        }else{
+            return ClassUtils.addResourcePathToPackagePath(clazz, source);
+        }
+    }
+        public static boolean isAbsolutePath(String source){
+            if ('/'== source.charAt(0) || source.matches("^[a-zA-Z]:/.*")) {
+                return true;
+            }
+            return false;
+        }
 
 
 

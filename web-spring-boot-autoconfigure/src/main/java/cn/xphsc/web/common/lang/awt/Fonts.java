@@ -15,7 +15,7 @@
  */
 package cn.xphsc.web.common.lang.awt;
 
-import sun.font.FontDesignMetrics;
+
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;
@@ -33,46 +33,6 @@ public class Fonts {
     private Fonts() {
     }
 
-    /**
-     * 获取字体指标
-     * @param font font
-     * @return metrics
-     */
-    public static FontMetrics getMetrics(Font font) {
-        return FontDesignMetrics.getMetrics(font);
-    }
-
-    /**
-     * 获取字符实际长度
-     * @param c    c
-     * @param font font
-     * @return 实际长度
-     */
-    public static int getStringWidth(char c, Font font) {
-        FontMetrics fm = FontDesignMetrics.getMetrics(font);
-        return fm.charWidth(c);
-    }
-
-    /**
-     * 获取字符传实际长度
-     * @param s    s
-     * @param font font
-     * @return 实际长度
-     */
-    public static int getStringWidth(String s, Font font) {
-        FontMetrics fm = FontDesignMetrics.getMetrics(font);
-        return fm.stringWidth(s);
-    }
-
-    /**
-     * 获取字体高度
-     * @param font font
-     * @return 高度
-     */
-    public static int getHeight(Font font) {
-        FontMetrics fm = FontDesignMetrics.getMetrics(font);
-        return fm.getHeight();
-    }
 
     /**
      * 获取系统支持的字体

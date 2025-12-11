@@ -99,6 +99,7 @@ public abstract class Constants {
     public static final String STAR = "*";
     public static final String BACK_SLASH = "\\";
     public static final String DASH = "-";
+
     public static final String DOT_CLASS = ".class";
     public static final String DOT_JAVA = ".java";
     public static final String FALSE = "false";
@@ -404,5 +405,7 @@ public abstract class Constants {
     public static final String EMPTY_OBJECT = "{}";
 
     public static final String EMPTY_ARRAY = "[]";
+    public static final String CLASSPATH_PREFIX = "classpath:";
+    public static final char PACKAGE_SEPARATOR = '.';
 
 }

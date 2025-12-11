@@ -16,7 +16,7 @@
 package cn.xphsc.web.rest.executor;
 
 import cn.xphsc.web.rest.http.SimpleHttpRestBuilderConvert;
-import org.json.JSONObject;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;

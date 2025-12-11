@@ -17,6 +17,8 @@ package cn.xphsc.web.utils;
 
 
 
+import cn.xphsc.web.common.lang.reflect.ClassLoaders;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -28,6 +30,9 @@ import java.net.URLDecoder;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+
+import static cn.xphsc.web.common.lang.constant.Constants.PACKAGE_SEPARATOR;
+import static cn.xphsc.web.common.lang.constant.Letters.SLASH;
 
 /**
  * {@link }
@@ -234,6 +239,81 @@ public class ClassUtils {
   public static boolean isBaseType(Class<?> cls) {
     return cls.equals(Integer.TYPE) || cls.equals(Byte.TYPE) || cls.equals(Long.TYPE) || cls.equals(Double.TYPE) || cls.equals(Float.TYPE) || cls.equals(Character.TYPE) || cls.equals(Short.TYPE) || cls.equals(Boolean.TYPE);
   }
+  public static List<Class<?>> getPackageClassesRecursive(final ClassLoader classLoader, final String packageName, final Set<String> ignoredPackageNames) {
 
+    final List<Class<?>> classes = new ArrayList<>();
 
+    final ClassLoaders classLoaderResolver = new ClassLoaders(classLoader, ignoredPackageNames);
+    final boolean status = classLoaderResolver.resolve();
+
+    if (!status) return classes;
+
+    for (final String classPath : classLoaderResolver.getClassPathsRecursive(packageName)) {
+      try {
+        classes.add(Class.forName(getClassName(classPath), false, classLoader));
+      } catch (final Exception ex) {
+        throw new RuntimeException(ex);
+      }
+    }
+
+    return classes;
+
+  }
+  public static String getClassName(final String classPath) {
+
+    return classPath.substring(0, classPath.length() - ".class".length()).replace('/', '.');
+
+  }
+  public static String getPackageName(final String classPath) {
+
+    final int lastDot = classPath.lastIndexOf(46);
+    return lastDot < 0 ? "" : classPath.substring(0, lastDot);
+
+  }
+  public static String addResourcePathToPackagePath(Class<?> clazz, String resourceName) {
+    Asserts.notNull(resourceName, "Resource name must not be null");
+    if (!resourceName.startsWith("/")) {
+      return classPackageAsResourcePath(clazz) + "/" + resourceName;
+    }
+    return classPackageAsResourcePath(clazz) + resourceName;
+  }
+  public static String classPackageAsResourcePath(Class<?> clazz) {
+    if (clazz == null) {
+      return "";
+    }
+    String className = clazz.getName();
+    int packageEndIndex = className.lastIndexOf(PACKAGE_SEPARATOR);
+    if (packageEndIndex == -1) {
+      return "";
+    }
+    String packageName = className.substring(0, packageEndIndex);
+    return packageName.replace(PACKAGE_SEPARATOR, SLASH);
+  }
+
+  public static ClassLoader getDefaultClassLoader() {
+    ClassLoader cl = null;
+    try {
+      cl = Thread.currentThread().getContextClassLoader();
+    }
+    catch (Throwable ex) {
+      // Cannot access thread context ClassLoader - falling back...
+    }
+    if (cl == null) {
+      // No thread context class loader -> use class loader of this class.
+      cl = ClassUtils.class.getClassLoader();
+      if (cl == null) {
+        // getClassLoader() returning null indicates the bootstrap ClassLoader
+        try {
+          cl = ClassLoader.getSystemClassLoader();
+        }
+        catch (Throwable ex) {
+          // Cannot access system ClassLoader - oh well, maybe the caller can live with null...
+        }
+      }
+    }
+    return cl;
+  }
+  public static URL url(String source, Class<?> clazz){
+    return (null != clazz) ? clazz.getResource(source) : getDefaultClassLoader().getResource(source);
+  }
 }

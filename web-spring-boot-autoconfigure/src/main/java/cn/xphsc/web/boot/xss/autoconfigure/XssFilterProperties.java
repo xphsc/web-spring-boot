@@ -35,6 +35,9 @@ public class XssFilterProperties {
     private String urlPatterns="/*";
     private int order=XSS_PREFIX_ORDER;
 
+
+
+
     public boolean isParameterEabled() {
         return parameterEabled;
     }

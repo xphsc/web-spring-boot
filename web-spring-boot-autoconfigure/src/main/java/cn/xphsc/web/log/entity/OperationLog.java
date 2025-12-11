@@ -29,6 +29,31 @@ public class OperationLog {
      */
     private String user;
     /**
+     * 操作人标识
+     */
+    private String  Operator;
+
+
+    private String moduleName;
+    /**
+     * 名称
+     */
+
+    private String name;
+    /**
+     * 操作描述
+     */
+
+    private String description;
+    /**
+     * 业务标识
+     */
+    private String bizNo;
+    /**
+     * 扩展
+     */
+    private String  extra;
+    /**
      * 请求(ip)
      */
     private String requestIp;
@@ -36,17 +61,6 @@ public class OperationLog {
      *  操作类型 0 登录 1查询 2 新增 3 修改 4 删除
      */
     private String type;
-    /**
-     * 模块名称
-     */
-
-    private String moduleName;
-    /**
-     * 操作描述
-     */
-
-    private String description;
-
     /**
      * 请求路径
      */
@@ -94,15 +108,19 @@ public class OperationLog {
 
     public OperationLog(){}
 
-    public static OperationLog.Builder builder(){
-        return  new OperationLog.Builder();
+    public static Builder builder(){
+        return  new Builder();
     }
-    private OperationLog(OperationLog.Builder builder){
+    private OperationLog(Builder builder){
+        this.Operator=builder.Operator;
+        this.name=builder.name;
         this.user=builder.user;
         this.requestIp=builder.requestIp;
         this.type=builder.type;
         this.moduleName=builder.moduleName;
         this.description=builder.description;
+        this.bizNo=builder.bizNo;
+        this.extra=builder.extra;
         this.requestUrl=builder.requestUrl;
         this.requestTime=builder.requestTime;
         this.requestMethod=builder.requestMethod;
@@ -115,11 +133,17 @@ public class OperationLog {
         this.failMessage=builder.failMessage;
     }
     public static class Builder {
+        private String  Operator;
+        private String name;
+
         private String user;
         private String requestIp;
         private String type;
         private String moduleName;
         private String description;
+        private String bizNo;
+
+        private String  extra;
         private String requestUrl;
         private Date requestTime;
         private String requestMethod;
@@ -132,68 +156,85 @@ public class OperationLog {
         private String  failMessage;
         public Builder(){
         }
-
-        public OperationLog.Builder user(String user) {
+        public Builder Operator(String Operator) {
+            this.Operator=Operator;
+            return this;
+        }
+        public Builder name(String name) {
+            this.name=name;
+            return this;
+        }
+        public Builder user(String user) {
             this.user=user;
             return this;
         }
-        public OperationLog.Builder requestIp(String requestIp) {
+        public Builder requestIp(String requestIp) {
             this.requestIp=requestIp;
             return this;
         }
-        public OperationLog.Builder type(String type) {
+        public Builder type(String type) {
             this.type=type;
             return this;
         }
-        public OperationLog.Builder moduleName(String moduleName) {
+        public Builder moduleName(String moduleName) {
             this.moduleName=moduleName;
             return this;
         }
-        public OperationLog.Builder description(String description) {
+        public Builder description(String description) {
             this.description=description;
             return this;
         }
-        public OperationLog.Builder requestUrl(String requestUrl) {
+
+        public Builder bizNo(String bizNo) {
+            this.bizNo=bizNo;
+            return this;
+        }
+
+        public Builder extra(String extra) {
+            this.extra=extra;
+            return this;
+        }
+        public Builder requestUrl(String requestUrl) {
             this.requestUrl=requestUrl;
             return this;
-        }  public OperationLog.Builder requestTime(Date requestTime) {
+        }  public Builder requestTime(Date requestTime) {
             this.requestTime=requestTime;
             return this;
         }
-        public OperationLog.Builder requestMethod(String requestMethod) {
+        public Builder requestMethod(String requestMethod) {
             this.requestMethod=requestMethod;
             return this;
         }
-        public OperationLog.Builder methodName(String methodName) {
+        public Builder methodName(String methodName) {
             this.methodName=methodName;
             return this;
         }
-        public OperationLog.Builder beanName(String beanName) {
+        public Builder beanName(String beanName) {
             this.beanName=beanName;
             return this;
         }
-        public OperationLog.Builder responseResult(int responseResult) {
+        public Builder responseResult(int responseResult) {
             this.responseResult=responseResult;
             return this;
         }
 
 
-        public OperationLog.Builder extendFields(String extendFields) {
+        public Builder extendFields(String extendFields) {
             this.extendFields=extendFields;
             return this;
         }
 
-        public OperationLog.Builder userAgent(String userAgent) {
+        public Builder userAgent(String userAgent) {
             this.userAgent=userAgent;
             return this;
         }
 
-        public OperationLog.Builder content(String content) {
+        public Builder content(String content) {
             this.content=content;
             return this;
         }
 
-        public OperationLog.Builder failMessage(String failMessage) {
+        public Builder failMessage(String failMessage) {
             this.failMessage=failMessage;
             return this;
         }
@@ -202,6 +243,23 @@ public class OperationLog {
             return new OperationLog(this);
         }
     }
+
+    public String getOperator() {
+        return Operator;
+    }
+
+    public void setOperator(String operator) {
+        Operator = operator;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getUser() {
         return user;
     }
@@ -241,6 +299,23 @@ public class OperationLog {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+
+    public String getBizNo() {
+        return bizNo;
+    }
+
+    public void setBizNo(String bizNo) {
+        this.bizNo = bizNo;
+    }
+
+    public String getExtra() {
+        return extra;
+    }
+
+    public void setExtra(String extra) {
+        this.extra = extra;
     }
 
     public String getRequestUrl() {

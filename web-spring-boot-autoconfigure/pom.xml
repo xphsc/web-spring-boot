@@ -6,14 +6,16 @@
 
     <groupId>cn.xphsc.boot</groupId>
     <artifactId>web-spring-boot-autoconfigure</artifactId>
-    <version>1.2.0</version>
-    <description>web Spring Boot AutoConfigure 高度扩展组件</description>
+    <version>2.0.3</version>
+     <description>web Spring Boot AutoConfigure 高度扩展组件</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring-boot.version>1.5.3.RELEASE</spring-boot.version>
-        <jsoup.version>1.15.4</jsoup.version>
-        <jackson-datatype.version>2.12.4</jackson-datatype.version>
+        <spring-boot.version>2.0.0.RELEASE</spring-boot.version>
+        <jsoup.version>1.18.1</jsoup.version>
+        <jackson-datatype.version>2.17.0</jackson-datatype.version>
+        <log4j-core.version>2.23.0</log4j-core.version>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
         <java.version>1.8</java.version>
     </properties>
     <parent>
@@ -70,7 +72,12 @@
             <version>${jackson-datatype.version}</version>
             <optional>true</optional>
         </dependency>
-
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j-core.version}</version>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
 
     <build>

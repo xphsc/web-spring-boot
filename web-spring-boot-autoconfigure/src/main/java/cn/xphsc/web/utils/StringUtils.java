@@ -31,9 +31,6 @@ import java.util.Locale;
  * @since 1.0.0
  */
 public class StringUtils {
-    public static final String DOT = ".";
-    private static final int INDEX_NOT_FOUND = -1;
-    public static final String COMMA = ",";
     public static final String EMPTY = "";
 
     public StringUtils() {
@@ -72,6 +69,27 @@ public class StringUtils {
             return true;
         }
     }
+
+    /**
+     * if the string is empty, 1:null, 2:""<br>
+     *
+     * @param source source string
+     * @return if empty true, else false
+     */
+    public static boolean isEmpty(final CharSequence source) {
+        return null==source || "".equals(source.toString().trim())
+                || "null".equalsIgnoreCase(source+"") || source.length() == 0;
+    }
+
+    /**
+     * if the string is not empty, 1:null, 2:""<br>
+     * @param source source string
+     * @return if empty true, else false
+     */
+    public static boolean isNotEmpty(final CharSequence source) {
+        return false == isEmpty(source);
+    }
+
     public static boolean isAllBlank(String... strs) {
         String[] var1 = strs;
         int var2 = strs.length;
@@ -162,6 +180,37 @@ public class StringUtils {
         } else {
             return str;
         }
+    }
+
+    /**
+     * remove the prefix of source
+     * @param source source string
+     * @param prefix prefix
+     * @return {@link String} the string of source input
+     */
+    public static String removePrefix(CharSequence source, CharSequence prefix) {
+        return removePrefix(source, prefix, false);
+    }
+
+    /**
+     * remove the prefix of source
+     * @param source source string
+     * @param prefix prefix
+     * @param isIgnoreCase isIgnoreCase true to ignore case
+     * @return {@link String} the string of source input
+     */
+    public static String removePrefix(CharSequence source, CharSequence prefix, boolean isIgnoreCase) {
+        if (isEmpty(source) || isEmpty(prefix)) {
+            return source.toString();
+        }
+
+        final String dest = source.toString();
+        if (startsWith(dest, prefix, isIgnoreCase)) {
+            //if prefix match, remove prefix
+            return dest.substring(prefix.length());
+        }
+        //the whole source
+        return dest;
     }
     public static String leftPad(String str, int size) {
         return leftPad(str, size, ' ');
@@ -1348,4 +1397,129 @@ public class StringUtils {
     public static String defaultString(String str, String defaultStr) {
         return str == null ? defaultStr : str;
     }
+    /**
+     * 检查是否包含任意项
+     * s
+     * contains 包含项
+     */
+    public static boolean contains(String s, String contains) {
+        if (s == null || contains == null) {
+            return false;
+        }
+        return s.contains(contains);
+    }
+
+    /**
+     * 检查是否包含任意项
+     *     s
+     * @param contains 包含项
+     */
+    public static boolean containsAny(String s, Collection<String> contains) {
+        if (s == null || Collects.isEmpty(contains)) {
+            return false;
+        }
+        for (String contain : contains) {
+            if (s.contains(contain)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 检查是否包含所有项
+     * s s
+     * contains contains
+     */
+    public static boolean containsAll(String s, Collection<String> contains) {
+        if (s == null) {
+            return false;
+        }
+        if (Collects.isEmpty(contains)) {
+            return true;
+        }
+        for (String contain : contains) {
+            if (!s.contains(contain)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 检查是否不包含
+     * s s
+     *  contains contains
+     */
+    public static boolean containsNone(String s, String contains) {
+        if (s == null || contains == null) {
+            return true;
+        }
+        return !s.contains(contains);
+    }
+
+    /**
+     * 检查是否不包含
+     *s
+     * contains contains
+     */
+    public static boolean containsNone(String s, Collection<String> contains) {
+        if (s == null || Collects.isEmpty(contains)) {
+            return true;
+        }
+        for (String contain : contains) {
+            if (s.contains(contain)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * if the source string is start with prefix
+     *
+     * @param source source string
+     * @param prefix prefix
+     * @param isIgnoreCase if true, ignore case lower or upper
+     * @return if start with true, else false
+     */
+    public static boolean startsWith(final CharSequence source, final CharSequence prefix, final boolean isIgnoreCase) {
+        if (isIgnoreCase) {
+            return source.toString().toLowerCase().startsWith(prefix.toString().toLowerCase());
+        } else {
+            return source.toString().startsWith(prefix.toString());
+        }
+    }
+
+    /**
+     * if the source string is start with prefix, the default is to ignore case
+     *
+     * @param source source string
+     * @param prefix prefix
+     * @return if start with true, else false
+     */
+    public static boolean startsWith(final CharSequence source, final CharSequence prefix) {
+        return startsWith(source, prefix, false);
+    }
+
+    /**
+     * if the source string is start with prefixes, more prefixes input, the default is to ignore case
+     *
+     * @param source source string
+     * @param prefixes prefixes, more prefixes input
+     * @return if start with true, else false
+     */
+    public static boolean startsWith(final CharSequence source, final CharSequence... prefixes) {
+        if (isEmpty(source) || ArrayUtils.isEmpty(prefixes)) {
+            return false;
+        }
+
+        for (CharSequence suffix : prefixes) {
+            if (startsWith(source, suffix, false)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

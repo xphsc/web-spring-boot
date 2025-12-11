@@ -31,13 +31,13 @@ import java.net.URISyntaxException;
  * @description:
  * @since 1.0.0
  */
-public class SimpleStreamingClientHttpRequest extends AbstractClientHttpRequest {
+public  class SimpleStreamingClientHttpRequest extends AbstractClientHttpRequest {
     private final HttpURLConnection connection;
     private final int chunkSize;
     private OutputStream body;
     private final boolean outputStreaming;
 
-    SimpleStreamingClientHttpRequest(HttpURLConnection connection, int chunkSize, boolean outputStreaming) {
+    public SimpleStreamingClientHttpRequest(HttpURLConnection connection, int chunkSize, boolean outputStreaming) {
         this.connection = connection;
         this.chunkSize = chunkSize;
         this.outputStreaming = outputStreaming;
@@ -45,6 +45,10 @@ public class SimpleStreamingClientHttpRequest extends AbstractClientHttpRequest 
 
     public HttpMethod getMethod() {
         return HttpMethod.resolve(this.connection.getRequestMethod());
+    }
+
+    public String getMethodValue() {
+        return null;
     }
 
     public URI getURI() {

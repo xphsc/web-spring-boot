@@ -28,12 +28,27 @@ import static cn.xphsc.web.common.WebBeanTemplate.LOG_PREFIX;
  */
 @ConfigurationProperties(prefix = LOG_PREFIX)
 public class OperationLogProperties {
-
+    /**
+     * Log Switch
+     */
     private boolean enabled;
     private int order=LOG_PREFIX_ORDER;
+    /**
+     *  is async
+     */
     private  boolean async;
+    /**
+     *  Whether to fill in abnormal content
+     */
     private boolean fillFailContent;
+    /**
+     *  Log content delimiter
+     */
     private String contrastSeparator="|";
+    /**
+     * Custom Exception Class
+     */
+    private String[]  exceptionClassName;
 
     public int getOrder() {
         return order;
@@ -75,5 +90,11 @@ public class OperationLogProperties {
         this.contrastSeparator = contrastSeparator;
     }
 
+    public String[] getExceptionClassName() {
+        return exceptionClassName;
+    }
 
+    public void setExceptionClassName(String[] exceptionClassName) {
+        this.exceptionClassName = exceptionClassName;
+    }
 }

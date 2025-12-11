@@ -22,6 +22,11 @@ public class ExceptionHandlerProperties {
      * 通用Exception
      */
     private String  message=HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
+    /**
+     * 自定义异常类
+     */
+    private String[] exceptionClassName;
+
     public int getOrder() {
         return order;
     }
@@ -44,5 +49,13 @@ public class ExceptionHandlerProperties {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String[] getExceptionClassName() {
+        return exceptionClassName;
+    }
+
+    public void setExceptionClassName(String[] exceptionClassName) {
+        this.exceptionClassName = exceptionClassName;
     }
 }

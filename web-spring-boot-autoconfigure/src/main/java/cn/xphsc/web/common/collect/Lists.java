@@ -22,6 +22,7 @@ import cn.xphsc.web.utils.RandomUtils;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * {@link }
@@ -214,7 +215,15 @@ public class Lists {
             return list.get(RandomUtils.getRandom().nextInt(size));
         }
     }
-
+    /**
+     * 随机打乱list
+     */
+    public static <E> void shuffle(List<E> list) {
+        if (isEmpty(list) || list.size() == 1) {
+            return;
+        }
+        java.util.Collections.shuffle(list);
+    }
     /**
      * 翻转集合
      * @param list 集合
@@ -321,6 +330,39 @@ public class Lists {
             return new Lists.Partition(list, size);
         }
     }
+    public static <E> List<E> as(Iterator<E> iterator) {
+        List<E> list = new ArrayList<>();
+        if (iterator != null) {
+            while (iterator.hasNext()) {
+                list.add(iterator.next());
+            }
+        }
+        return list;
+    }
+
+    public static <E> List<E> as(Enumeration<E> iterator) {
+        List<E> list = new ArrayList<>();
+        if (iterator != null) {
+            while (iterator.hasMoreElements()) {
+                list.add(iterator.nextElement());
+            }
+        }
+        return list;
+    }
+
+    public static <T> boolean anyMatch(List<T> collection, Predicate<T> predicate) {
+        if (collection == null || collection.isEmpty()) {
+            return false;
+        }
+        return collection.stream().anyMatch(predicate);
+    }
+
+    public static <T> boolean allMatch(List<T> collection, Predicate<T> predicate) {
+        if (collection == null || collection.isEmpty()) {
+            return false;
+        }
+        return collection.stream().allMatch(predicate);
+    }
 
     private static class Partition<T> extends AbstractList<List<T>> {
         private final List<T> list;
@@ -346,6 +388,7 @@ public class Lists {
                 return this.list.subList(start, end);
             }
         }
+
 
 
         @Override

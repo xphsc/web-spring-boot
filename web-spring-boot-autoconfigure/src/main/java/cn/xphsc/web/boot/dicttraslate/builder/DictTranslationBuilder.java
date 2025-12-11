@@ -15,6 +15,7 @@
  */
 package cn.xphsc.web.boot.dicttraslate.builder;
 
+
 import cn.xphsc.web.common.context.SpringContextHolder;
 import cn.xphsc.web.dicttraslate.annotation.*;
 import cn.xphsc.web.dicttraslate.entity.DictTransType;
@@ -134,6 +135,7 @@ public class DictTranslationBuilder {
                     Map<String, String> dict = dictTranslationEntity.getDictDetail();
 
                     Class entityClass = entity.getClass();
+
                     if (entityClass != null) {
                         Field dictField = entityClass.getDeclaredField(dictName);
                         dictField.setAccessible(true);

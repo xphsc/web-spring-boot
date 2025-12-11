@@ -16,6 +16,7 @@
 package cn.xphsc.web.common.lang.tuple;
 
 
+import java.util.Map;
 
 /**
  * {@link }
@@ -72,7 +73,13 @@ public class Pair<L, R> {
             return new Pair<>(left, right);
         }
     }
+    public static <K, V> Pair<K, V> of(K key, V value) {
+        return new Pair<>(key, value);
+    }
 
+  /*  public static <K, V> Pair<K, V> of(Map.Entry<K, V> entry) {
+        return new Pair<>(entry);
+    }*/
     private Pair(L left, R right) {
         this.left = left;
         this.right = right;

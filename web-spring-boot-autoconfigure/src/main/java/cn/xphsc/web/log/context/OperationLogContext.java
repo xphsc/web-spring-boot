@@ -15,8 +15,6 @@
  */
 package cn.xphsc.web.log.context;
 
-import org.springframework.core.NamedThreadLocal;
-
 import java.util.HashMap;
 import java.util.Map;
 

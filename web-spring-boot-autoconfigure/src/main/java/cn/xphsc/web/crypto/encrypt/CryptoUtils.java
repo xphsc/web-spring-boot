@@ -34,7 +34,7 @@ import java.nio.charset.Charset;
  */
 public class CryptoUtils {
 
-    private static class LazyCryptoHolder {
+    private static class LazyCryptoHolder{
         /**
          * Aes 加密工厂
          */

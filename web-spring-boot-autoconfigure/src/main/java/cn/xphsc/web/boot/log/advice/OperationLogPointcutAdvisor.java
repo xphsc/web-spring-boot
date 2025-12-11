@@ -38,13 +38,16 @@ public class OperationLogPointcutAdvisor extends AbstractPointcutAdvisor impleme
     private Advice advice;
     private Pointcut pointcut;
     private OperationLogProperties operationLogProperties;
-    public OperationLogPointcutAdvisor(OperationLogProperties operationLogProperties){
+
+    private Class<? extends Annotation> targetAnnotation;
+    public OperationLogPointcutAdvisor(OperationLogProperties operationLogProperties,Class<? extends Annotation> targetAnnotation) {
+        this.targetAnnotation = targetAnnotation;
         this.operationLogProperties=operationLogProperties;
     }
     @Override
     public Pointcut getPointcut() {
         if (this.pointcut == null) {
-            this.pointcut = buildPointcut(SysOperationLog.class);
+            this.pointcut = buildPointcut(targetAnnotation);
         }
         return this.pointcut;
     }
@@ -70,7 +73,7 @@ public class OperationLogPointcutAdvisor extends AbstractPointcutAdvisor impleme
         return applicationContext;
     }
     private Advice buildAdvice() {
-        OperationLogMethodInterceptor interceptor = new OperationLogMethodInterceptor(applicationContext,operationLogProperties);
+        OperationLogMethodInterceptor interceptor = new OperationLogMethodInterceptor(applicationContext,operationLogProperties,targetAnnotation);
         return interceptor;
     }
     private Pointcut buildPointcut(Class<? extends Annotation> targetAnnotation) {

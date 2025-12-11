@@ -28,7 +28,7 @@ web Spring Boot` web Spring Boot低耦合集成的web高度扩展组件
  <dependency>
  <groupId>cn.xphsc.boot</groupId>
     <artifactId>web-spring-boot-starter</artifactId>
-    <version>2.0.3</version>
+    <version>2.0.4</version>
  </dependency>
 ~~~
 spring boot3以上版本
@@ -36,7 +36,7 @@ spring boot3以上版本
  <dependency>
  <groupId>cn.xphsc.boot</groupId>
     <artifactId>web-spring-boot-starter</artifactId>
-    <version>3.0.2</version>
+    <version>3.0.3</version>
  </dependency>
 ~~~
 #### 包含组件

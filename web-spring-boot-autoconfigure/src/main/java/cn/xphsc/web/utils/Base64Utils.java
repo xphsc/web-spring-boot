@@ -18,7 +18,6 @@ package cn.xphsc.web.utils;
 import cn.xphsc.web.common.lang.base64.BASE64Decoder;
 import cn.xphsc.web.common.lang.constant.Constants;
 import org.apache.tomcat.util.codec.binary.Base64;
-import org.springframework.util.StringUtils;
 import java.nio.charset.Charset;
 
 /**
@@ -28,7 +27,6 @@ import java.nio.charset.Charset;
  * @since 1.0.0
  */
 public class Base64Utils {
-    private static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
     private static final Base64Delegate delegate = null;
     /**
      * base 64 encode
@@ -50,7 +48,7 @@ public class Base64Utils {
     }
 
     public static byte[] base64Decode(byte[] bytes){
-        return Base64.decodeBase64(bytes);
+        return Base64.decodeBase64(bytes.toString());
     }
 
     public static String encodeToString(byte[] src) {
@@ -137,5 +135,5 @@ public class Base64Utils {
 
         byte[] decodeUrlSafe(byte[] var1);
     }
-    
+
 }

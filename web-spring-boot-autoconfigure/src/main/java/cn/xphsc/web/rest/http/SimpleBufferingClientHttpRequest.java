@@ -47,6 +47,11 @@ public class SimpleBufferingClientHttpRequest  extends AbstractBufferingClientHt
         return HttpMethod.resolve(this.connection.getRequestMethod());
     }
 
+    public String getMethodValue() {
+        return null;
+    }
+
+
     public URI getURI() {
         try {
             return this.connection.getURL().toURI();

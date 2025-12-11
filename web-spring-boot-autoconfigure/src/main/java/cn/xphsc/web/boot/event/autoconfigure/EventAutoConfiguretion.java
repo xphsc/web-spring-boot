@@ -17,7 +17,6 @@ package cn.xphsc.web.boot.event.autoconfigure;
 
 
 import cn.xphsc.web.event.EventListenerPostProcessor;
-import cn.xphsc.web.event.publisher.EventPublisher;
 import cn.xphsc.web.event.publisher.EventPublisherStrategy;
 import cn.xphsc.web.event.publisher.AsyncEventListener;
 import cn.xphsc.web.event.publisher.SyncEventListener;

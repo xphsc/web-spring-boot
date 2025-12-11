@@ -153,6 +153,21 @@ public class ObjectUtils {
         return false;
     }
 
+    /**
+     * 判断是否为void
+     *clazz class
+     */
+    public static boolean isVoids(Class<?> clazz) {
+        return Void.TYPE.equals(clazz) || Void.class.equals(clazz) || clazz == void.class;
+    }
+
+    /**
+     * 判断是否不为void
+     *clazz class
+     */
+    public static boolean isNotVoids(Class<?> clazz) {
+        return !isVoids(clazz);
+    }
     private static boolean arrayEquals(Object o1, Object o2) {
         if (o1 instanceof Object[] && o2 instanceof Object[]) {
             return Arrays.equals((Object[]) o1, (Object[]) o2);

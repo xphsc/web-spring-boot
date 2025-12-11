@@ -18,6 +18,17 @@ web:
     @RequestMapping("/")
     @Encrypt
     public class TestModelController {}
+    @PostMapping("/post")
+    @Decrypt
+    public Object post(@RequestBody TestModel testModel){
+        return testModel;
+    }
+    //get(2.0.4和3.0.3以上)
+    @GetMapping("/get/{name}")
+    @Decrypt
+    public Object get(@PathVariable String name){
+        return name;
+    }
  /**
      * js 加密 example
      * var key = CryptoJS.enc.Utf8.parse(key);

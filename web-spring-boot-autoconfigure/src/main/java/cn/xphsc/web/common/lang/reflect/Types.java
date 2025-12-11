@@ -37,7 +37,6 @@ public class Types {
 
     /**
      * 是否未知类型
-     *
      * @param type type
      * @return 是否未知类型
      */
@@ -47,7 +46,6 @@ public class Types {
 
     /**
      * 获取 type 对应的原始 class
-     *
      * @param type type
      * @return 原始class
      */

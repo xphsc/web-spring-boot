@@ -16,6 +16,8 @@
 package cn.xphsc.web.boot.log.autoconfigure;
 
 import cn.xphsc.web.boot.log.advice.OperationLogPointcutAdvisor;
+import cn.xphsc.web.log.annotation.LogRecord;
+import cn.xphsc.web.log.annotation.SysOperationLog;
 import cn.xphsc.web.log.handler.UserHandler;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -46,7 +48,15 @@ public class OperationLogAdviceAutoConfiguration  implements Ordered {
 
     @Bean
     public OperationLogPointcutAdvisor operationLogPointcutAdvisor(){
-        return new  OperationLogPointcutAdvisor(operationLogProperties);
+        return new  OperationLogPointcutAdvisor(operationLogProperties, SysOperationLog.class);
+    }
+    @Bean
+    public OperationLogPointcutAdvisor logRecordPointcutAdvisor(){
+        return new  OperationLogPointcutAdvisor(operationLogProperties,LogRecord.class);
+    }
+    @Bean
+    public OperationLogPointcutAdvisor logRecordsPointcutAdvisor(){
+        return new  OperationLogPointcutAdvisor(operationLogProperties, LogRecord.LogRecords.class);
     }
     @Override
     public int getOrder() {

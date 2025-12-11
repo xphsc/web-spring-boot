@@ -1,5 +1,39 @@
-web-spring-boot-starter 1.x Changelog
+web-spring-boot-starter 2.x Changelog
 ===================================
+Changes in version 2.0.3
+---------------------------------------------
+* Add custom exception class configuration for general exceptions
+* Add custom exception class configuration to application logs
+* Add application @LogRecord, log record annotation. The original log record @SysOperationLog annotation is outdated
+* Optimize BeanByMapper copying
+* Add collection sorting tool Sorts and MapSort class
+* Expand Options and Functions utility methods under existing function packages
+---------------------------------------------
+Changes in version 2.0.2
+---------------------------------------------
+* Increase the implementation of set variability classes
+* add  Zip class to provide utils for use
+* Add encryption algorithms and symmetric encryption/decryption
+* Add unit tools for lang
+* Fix the getString method of Maps object to obtain values
+* Upgrade to jackson-datatype-jsr310  version 2.17.0
+---------------------------------------------
+Changes in version 2.0.1
+---------------------------------------------
+* add Efficient LRU caching strategy
+* add Lightweight, stateless, and highly scalable state machine
+* add Log4j log desensitization
+* add ResponseResult Customize object properties
+* add Implementation of strategy annotation
+* set multi-version api @ApiVersion annotation ENABLED is false
+* Upgrade to jackson-datatype-jsr310 2.16.1
+* Upgrade to jsoup 1.18.1
+---------------------------------------------
+Changes in version 2.0.0
+---------------------------------------------
+* add Simple development of multi-version api @ApiVersion annotation, support for uri, header, param.
+* Upgrade Spring Boot to 2.0.0
+---------------------------------------------
 Changes in version 1.2.0
 ---------------------------------------------
 * add base62 encryption tool

@@ -50,6 +50,8 @@ public interface WebBeanTemplate {
     String ENV_ENCRYPT_PREFIX=PREFIX+".envencrypt";
      String  STRATEGY_PREFIX=PREFIX+".strategy";
     String  PROXY_PREFIX=PREFIX+".proxy";
+    String  APIVERSION_PREFIX=PREFIX+".apiversion";
+    String CACHE_PREFIX=PREFIX+".cache";
      int XSS_PREFIX_ORDER=Integer.MAX_VALUE-1;
      String VALIDATION_PREFIX_ORDER="${"+VALIDATION_PREFIX+".order:-9999}";
      int SQLINJECTION_PREFIX_ORDER = -10000;

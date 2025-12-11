@@ -19,6 +19,7 @@ package cn.xphsc.web.common.collect;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
+
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
@@ -153,6 +154,18 @@ public class Collections {
         return true;
     }
 
+
+    public static boolean equal(Iterable<?> iterable1, Iterable<?> iterable2) {
+        final Iterator<?> iter1 = iterable1.iterator();
+        final Iterator<?> iter2 = iterable2.iterator();
+        while (iter1.hasNext() && iter2.hasNext()) {
+            if (!Objects.equals(iter1.next(), iter2.next())) {
+                return false;
+            }
+        }
+        return iter1.hasNext() == iter2.hasNext();
+    }
+
     /**
      * 集合是否包含元素
      * @param c   c
@@ -216,7 +229,6 @@ public class Collections {
 
     /**
      * 查询交集
-     *
      * @param c1  集合1
      * @param c2  集合2
      * @param <E> 类型
@@ -322,6 +334,24 @@ public class Collections {
                 list.set(i, value);
             }
         }
+    }
+
+    /**
+     * 随机从集合中选择一个元素
+     * @param c
+     * @return
+     * @param <E>
+     */
+    public static <E> E randomElement(Collection<E> c) {
+        if (isEmpty(c)) {
+            return null;
+        }
+        int index = new Random().nextInt(c.size());
+        Iterator<E> iterator = c.iterator();
+        for (int i = 0; i < index; i++) {
+            iterator.next();
+        }
+        return iterator.next();
     }
 
     /**

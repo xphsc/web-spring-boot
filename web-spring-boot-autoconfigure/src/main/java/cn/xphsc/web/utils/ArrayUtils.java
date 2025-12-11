@@ -1510,4 +1510,19 @@ public class ArrayUtils {
         }
         return hash;
     }
+    public static byte[] resize(byte[] arr, int newSize) {
+        if (newSize <= 0) {
+            return new byte[0];
+        }
+        if (arr.length < newSize) {
+            byte[] nbs = new byte[newSize];
+            System.arraycopy(arr, 0, nbs, 0, arr.length);
+            return nbs;
+        } else if (arr.length > newSize) {
+            byte[] nbs = new byte[newSize];
+            System.arraycopy(arr, 0, nbs, 0, newSize);
+            return nbs;
+        }
+        return arr;
+    }
 }

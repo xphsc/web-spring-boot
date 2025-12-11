@@ -6,12 +6,13 @@
 
     <groupId>cn.xphsc.boot</groupId>
     <artifactId>web-spring-boot-starter</artifactId>
-    <version>1.2.0</version>
-    <description>web Spring Boot starter 低耦合集成的高度扩展组件</description>
+    <version>2.0.2</version>
+    <description>web Spring Boot starter 低耦合集成的web高度扩展组件</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring-boot.version>1.5.3.RELEASE</spring-boot.version>
-        <web-spring-boot-autoconfigure.version>1.2.0</web-spring-boot-autoconfigure.version>
+        <spring-boot.version>2.0.0.RELEASE</spring-boot.version>
+        <web-spring-boot-autoconfigure.version>2.0.2</web-spring-boot-autoconfigure.version>
+        <hibernate-validator.version>6.0.23.Final</hibernate-validator.version>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
     </properties>
@@ -50,6 +51,11 @@
             <artifactId>web-spring-boot-autoconfigure</artifactId>
             <version>${web-spring-boot-autoconfigure.version}</version>
         </dependency>
+       <dependency>
+       <groupId>org.hibernate</groupId>
+       <artifactId>hibernate-validator</artifactId>
+       <version>${hibernate-validator.version}</version>
+   </dependency>
     </dependencies>
 
     <build>

@@ -4,8 +4,7 @@ import cn.xphsc.web.log.annotation.LogField;
 import cn.xphsc.web.log.annotation.LogTransMapping;
 import cn.xphsc.web.log.annotation.SysOperationLog;
 import cn.xphsc.web.utils.StringUtils;
-import org.springframework.core.annotation.AnnotationUtils;
-import java.lang.reflect.Method;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,16 +16,23 @@ import java.util.Map;
  */
 public class SysOperationLogBuilder {
 
-    private Method method;
-    public  SysOperationLogBuilder(Method method){
-        this.method=method;
+    private SysOperationLog sysOperationLog;
+    public  SysOperationLogBuilder(SysOperationLog sysOperationLog){
+        this.sysOperationLog=sysOperationLog;
 
     }
 
     public SysOperationLog getSysOperationLog() {
-        return  AnnotationUtils.getAnnotation(method,SysOperationLog.class);
+        return  sysOperationLog;
     }
-
+    public String getOperator() {
+        SysOperationLog sysOperationLog=getSysOperationLog();
+        String operator=null;
+        if(sysOperationLog!=null){
+            operator=sysOperationLog.operator();
+        }
+        return operator;
+    }
     public String getDescription() {
         SysOperationLog sysOperationLog=getSysOperationLog();
         String description=null;
@@ -36,15 +42,50 @@ public class SysOperationLogBuilder {
         return description;
     }
 
+    public String getName() {
+        SysOperationLog sysOperationLog=getSysOperationLog();
+        String name=null;
+        if(sysOperationLog!=null){
+            name=sysOperationLog.name();
+        }
 
+        return name;
+    }
     public String getModuleName() {
         SysOperationLog sysOperationLog=getSysOperationLog();
         String moduleName=null;
         if(sysOperationLog!=null){
-            moduleName=sysOperationLog.name();
+            moduleName=sysOperationLog.moduleName();
         }
 
         return moduleName;
+    }
+    public String getExtra() {
+        SysOperationLog sysOperationLog=getSysOperationLog();
+        String extra=null;
+        if(sysOperationLog!=null){
+            extra=sysOperationLog.extra();
+        }
+
+        return extra;
+    }
+    public String getBusinessId() {
+        SysOperationLog sysOperationLog=getSysOperationLog();
+        String businessId=null;
+        if(sysOperationLog!=null){
+            businessId=sysOperationLog.bizNo();
+        }
+
+        return businessId;
+    }
+    public String getType() {
+        SysOperationLog sysOperationLog=getSysOperationLog();
+        String type=null;
+        if(sysOperationLog!=null){
+            type=sysOperationLog.type();
+        }
+
+        return type;
     }
     public String getActionType() {
         SysOperationLog sysOperationLog=getSysOperationLog();

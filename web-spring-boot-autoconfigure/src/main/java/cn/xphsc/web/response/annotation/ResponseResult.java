@@ -15,6 +15,8 @@
  */
 package cn.xphsc.web.response.annotation;
 
+import cn.xphsc.web.common.response.Response;
+
 import java.lang.annotation.*;
 
 /**
@@ -27,4 +29,11 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface ResponseResult {
+
+     Class<?> responseClass() default Response.class;
+
+     /**
+      *  response Result ok method Name
+      */
+     String responseOk() default "ok";
 }

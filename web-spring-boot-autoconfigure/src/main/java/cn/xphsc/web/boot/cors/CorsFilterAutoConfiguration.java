@@ -66,7 +66,6 @@ public class CorsFilterAutoConfiguration {
 
     /**
      * 跨域过滤器
-     *
      * @return Cors过滤器
      */
     @Bean

@@ -251,8 +251,10 @@ public class Maps {
     }
 
     public static <K> String getString(Map<? super K, ?> map, K key) {
-        Number value = getNumber(map, key);
-        return value == null?null:String.valueOf(value);
+        if(map!=null){
+            return map.get(key) != null?String.valueOf(map.get(key)):null;
+        }
+        return null;
     }
 
     public static boolean containsKey(Object key) {

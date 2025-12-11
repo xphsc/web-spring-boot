@@ -20,11 +20,12 @@ import org.springframework.cglib.beans.BeanMap;
 import org.springframework.cglib.core.Converter;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: Mapper Class
  * @since 1.0.0
  */
 public class MapperClass {
@@ -34,6 +35,8 @@ public class MapperClass {
     private Map<String,String>  mapper;
     private Converter converter;
     private  Set excludeProperties;
+    private static final Map<String, BeanCopier> BEAN_COPIER_CACHE = new ConcurrentHashMap<>();
+
     protected MapperClass(){}
     public MapperClass getSelf() {
         return this;
@@ -62,10 +65,13 @@ public class MapperClass {
 
             }
         }
+        String key = genKey(origClass.getClass(), targetClass.getClass());
         if(converter!=null){
-                copier = BeanCopier.create(origClass.getClass(), targetClass.getClass(), true);
+             copier = BEAN_COPIER_CACHE.computeIfAbsent(key,
+                    k -> BeanCopier.create(origClass.getClass(),targetClass.getClass(), true));
             }else{
-                copier = BeanCopier.create(origClass.getClass(), targetClass.getClass(), false);
+            copier = BEAN_COPIER_CACHE.computeIfAbsent(key,
+                    k -> BeanCopier.create(origClass.getClass(),targetClass.getClass(), false));
             }
         copier.copy(origClass,targetClass,converter!=null?converter:null);
         return (T) targetClass;
@@ -163,13 +169,18 @@ public class MapperClass {
 
     protected static BeanCopier beanCopier(Object origClass, Class<?> targetClass, boolean converter){
         BeanCopier copier;
+        String key = genKey(origClass.getClass(), targetClass);
         if(!converter){
-            copier = BeanCopier.create(origClass.getClass(), targetClass, false);
+            copier = BEAN_COPIER_CACHE.computeIfAbsent(key,
+                    k -> BeanCopier.create(origClass.getClass(),targetClass, false));
         }else{
-            copier = BeanCopier.create(origClass.getClass(), targetClass, true);
+            copier = BEAN_COPIER_CACHE.computeIfAbsent(key,
+                    k -> BeanCopier.create(origClass.getClass(),targetClass, true));
         }
        return copier;
     }
 
-
+    private static String genKey(Class<?> sourceClass, Class<?> targetClass) {
+        return sourceClass.getName() + "->" + targetClass.getName();
+    }
 }

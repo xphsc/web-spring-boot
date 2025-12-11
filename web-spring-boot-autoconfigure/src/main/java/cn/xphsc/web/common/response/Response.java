@@ -26,7 +26,7 @@ import java.util.*;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description:  Response
  * @since 1.0.0
  */
 public class Response<T> implements Serializable {
@@ -45,6 +45,10 @@ public class Response<T> implements Serializable {
      * 响应描述信息
      */
     private String message;
+    /**
+     * 响应时间戳
+     */
+    private long  timestamp;
 
     public Response(){}
 
@@ -128,6 +132,14 @@ public class Response<T> implements Serializable {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public long getTimestamp() {
+        return System.currentTimeMillis();
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 
     @Override

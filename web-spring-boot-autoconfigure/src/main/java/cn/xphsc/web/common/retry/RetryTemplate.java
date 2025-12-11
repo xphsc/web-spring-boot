@@ -91,7 +91,6 @@ public class RetryTemplate {
     /**
      * 重试调度方法和处理
      * @param retry 方法执行体(返回数据)
-     * @param othhttps://github.com/wboost/spring-boot-starter-supporter  其他操作
      * @param <T> 返回数据类型
      */
     public static <T> T retrySuccessOrElseGet(Retry<T> retry, Supplier<T> other) {

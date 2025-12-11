@@ -20,7 +20,6 @@ package cn.xphsc.web.boot.response.interceptor;
 
 import cn.xphsc.web.response.annotation.ResponseResult;
 import cn.xphsc.web.common.response.Response;
-import cn.xphsc.web.common.response.ResponseCode;
 import cn.xphsc.web.utils.JacksonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +33,10 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
+import static cn.xphsc.web.common.lang.reflect.Methods.invokeMethod;
 
 /**
  * {@link }
@@ -42,12 +45,11 @@ import java.lang.annotation.Annotation;
  * @since 1.0.0
  */
 @ControllerAdvice
-public class ResponseResultHandler implements ResponseBodyAdvice<Object>  {
+public class ResponseResultHandler<T> implements ResponseBodyAdvice<Object>  {
 
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-
+    private ResponseResult responseResult;
     /**
      * 请求中是否包含了 响应需要被包装的标记，如果没有，则直接返回，不需要重写返回体
      * @param methodParameter
@@ -57,14 +59,20 @@ public class ResponseResultHandler implements ResponseBodyAdvice<Object>  {
     @Override
     public boolean supports(MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> aClass) {
         Annotation[] annotations = methodParameter.getDeclaringClass().getAnnotations();
+        boolean result = false;
         if(annotations!=null && annotations.length>0){
             for (Annotation annotation : annotations) {
                 if(annotation instanceof ResponseResult ){
-                    return true;
+                     responseResult= (ResponseResult) annotation;
+                     result=true;
                 }
             }
         }
-        return methodParameter.getMethod().isAnnotationPresent(ResponseResult.class) ;
+        if(methodParameter.getMethod().isAnnotationPresent(ResponseResult.class)){
+            responseResult= methodParameter.getMethod().getAnnotation(ResponseResult.class);
+            result=true;
+        }
+        return result ;
     }
 
 
@@ -83,23 +91,40 @@ public class ResponseResultHandler implements ResponseBodyAdvice<Object>  {
         if(logger.isDebugEnabled()){
             logger.debug("返回响应 包装进行中。。。");
         }
-       Response response = null;
+        T entity;
+        String okName;
+        okName=responseResult.responseOk();
+            try {
+                Constructor constructor=  responseResult.responseClass().getDeclaredConstructor();
+                try {
+                    entity = (T) constructor.newInstance();
+                } catch (InvocationTargetException e) {
+                    throw new RuntimeException(e);
+                } catch (InstantiationException e) {
+                    throw new RuntimeException(e);
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException(e);
+                }
+            } catch (NoSuchMethodException e) {
+                throw new RuntimeException(e);
+            }
         // boolean类型时判断一些数据库新增、更新、删除的操作是否成功
         if (responseBody instanceof Boolean) {
             if ((Boolean) responseBody) {
-                response = Response.ok(responseBody);
+                entity= invokeMethod(entity, okName, responseBody);
             }
-
         }  else if (responseBody instanceof String) {
-            return JacksonUtils.toJSONString(Response.ok(responseBody));
-        } else if (responseBody instanceof ResponseEntity || responseBody instanceof Response) {
+            entity= invokeMethod(entity, okName, responseBody);
+            return JacksonUtils.toJSONString(entity);
+        } else if (responseBody instanceof ResponseEntity || responseBody instanceof Response || responseBody.equals(entity)) {
             return responseBody;
         }else if (aClass.isAssignableFrom(StringHttpMessageConverter.class)) {
             return responseBody;
         } else {
-            response = Response.ok(responseBody);
+            entity= invokeMethod(entity, okName, responseBody);
+
         }
-        return response;
+        return entity;
     }
 
 

@@ -19,16 +19,21 @@ package cn.xphsc.web.boot.log.advice;
 
 
 import cn.xphsc.web.boot.log.autoconfigure.OperationLogProperties;
+import cn.xphsc.web.common.bean.BeanFor;
+import cn.xphsc.web.common.collect.Lists;
 import cn.xphsc.web.common.exception.ApiException;
 import cn.xphsc.web.common.exception.BusinessException;
 import cn.xphsc.web.common.exception.CustomException;
 import cn.xphsc.web.common.exception.ServiceException;
 import cn.xphsc.web.common.response.Response;
 import cn.xphsc.web.log.annotation.LogIgnore;
+import cn.xphsc.web.log.annotation.LogRecord;
+import cn.xphsc.web.log.annotation.SysOperationLog;
 import cn.xphsc.web.log.builder.OperationLogBuilder;
+import cn.xphsc.web.log.context.OperationLogContext;
 import cn.xphsc.web.log.event.OperationLogEvent;
 import cn.xphsc.web.log.handler.UserHandler;
-import cn.xphsc.web.utils.JacksonUtils;
+import cn.xphsc.web.utils.CollectionUtils;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.slf4j.Logger;
@@ -36,11 +41,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.NoUniqueBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.http.HttpStatus;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Map;
 
 
@@ -57,10 +65,11 @@ public class OperationLogMethodInterceptor implements MethodInterceptor{
     private  ApplicationContext applicationContext;
     private UserHandler userHandler;
     private  OperationLogProperties operationLogProperties;
-
-    public OperationLogMethodInterceptor(ApplicationContext applicationContext, OperationLogProperties operationLogProperties){
+    private Class<? extends Annotation> annotationClass;
+    public OperationLogMethodInterceptor(ApplicationContext applicationContext, OperationLogProperties operationLogProperties,Class<? extends Annotation> annotationClass){
        this.applicationContext=applicationContext;
        this.operationLogProperties=operationLogProperties;
+       this.annotationClass=annotationClass;
        if(containsBean(UserHandler.class)){
            this.userHandler=applicationContext.getBean(UserHandler.class);
        }
@@ -135,14 +144,49 @@ public class OperationLogMethodInterceptor implements MethodInterceptor{
           if(throwable instanceof ApiException){
               ApiException apiException= (ApiException) throwable;
               return Response.fail(apiException.getCode(),apiException.getMessage());
-          }else{
-              return Response.fail(HttpStatus.INTERNAL_SERVER_ERROR.value(),throwable.getMessage());
           }
+          if(CollectionUtils.isNotEmpty(exceptionClass())){
+              for(Class<? extends Exception>  cl:exceptionClass()){
+                  if(throwable.getClass().equals(cl)){
+                      Map map= BeanFor.beanOf(throwable);
+                      if(map.get("code")!=null){
+                          return Response.fail((Integer) map.get("code"),throwable.getMessage());
+                      }else{
+                          return Response.fail(HttpStatus.INTERNAL_SERVER_ERROR.value(),throwable.getMessage());
+                      }
+                  }
+              }
+          }
+           return Response.fail(HttpStatus.INTERNAL_SERVER_ERROR.value(),throwable.getMessage());
       }
 
-
+       private List<Class<? extends Exception>> exceptionClass() {
+        List<Class<? extends Exception>> list= Lists.newArrayList(2);
+        try {
+            for(String exceptionClassName: operationLogProperties.getExceptionClassName()){
+                list.add((Class<? extends Exception>) Class.forName(exceptionClassName));
+            }
+            return list;
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
     private void publishOperationLog(MethodInvocation methodInvocation,Object result, String message){
-          OperationLogBuilder operationLogBuilder = new OperationLogBuilder(methodInvocation.getMethod(),methodInvocation.getThis(),result,methodInvocation.getArguments(), operationLogProperties,applicationContext, userHandler,message);
+        Annotation annotation= AnnotationUtils.getAnnotation(methodInvocation.getMethod(),annotationClass);
+        if(annotation instanceof LogRecord.LogRecords){
+            LogRecord.LogRecords loggerRecordannotations= (LogRecord.LogRecords) annotation;
+            LogRecord[]  logRecords = loggerRecordannotations.value();
+         for(LogRecord logRecord:logRecords){
+             publishEvent(logRecord,methodInvocation, result,  message);
+        }
+        }else{
+            publishEvent(annotation,methodInvocation, result,  message);
+        }
+        OperationLogContext.clean();
+      }
+
+      private void publishEvent(Annotation annotation,MethodInvocation methodInvocation,Object result, String message){
+          OperationLogBuilder operationLogBuilder = new OperationLogBuilder(annotation,methodInvocation.getMethod(),methodInvocation.getThis(),result,methodInvocation.getArguments(), operationLogProperties,applicationContext, userHandler,message);
           OperationLogEvent event = new OperationLogEvent("object",operationLogBuilder.getOperationLog());
           if(this.operationLogProperties.isAsync()){
               TaskExecutor operationLogExecutor = new SimpleAsyncTaskExecutor("operationLogExecutor-");

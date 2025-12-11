@@ -22,3 +22,9 @@ web.validation.enabled=true
  @ResponseResult(responseClass=Result.class,responseOk = "ok")
    public class TestModelController {}
 ~~~
+##   全局配置   注解大于配置（2.0.4以及3.0.3以上）
+web:
+ validation
+   enabled: true
+   defaultClass： //默认  Response
+   defaultOkMethod = "ok";  //默认  ok

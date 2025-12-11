@@ -86,7 +86,8 @@ public class SensitiveMessageConverter extends BaseMessageConverter {
             return true;
         }
         return false;
-    }private int getValueStartIndex(String msg, int valueStart ){
+    }
+    private int getValueStartIndex(String msg, int valueStart ){
         do{
             char ch = msg.charAt(valueStart);
             if(ch == ':' || ch == '='||ch == ' '||ch == '.'){

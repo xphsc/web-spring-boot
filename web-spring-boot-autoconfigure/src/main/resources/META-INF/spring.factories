@@ -20,7 +20,10 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
  cn.xphsc.web.boot.rest.autoconfigure.RestLoadBalancerAutoConfiguration,\
  cn.xphsc.web.boot.rest.autoconfigure.RestBuilderTemplateAutoConfiguration,\
  cn.xphsc.web.boot.strategy.autoconfigure.StrategyAutoConfiguration,\
- cn.xphsc.web.boot.proxy.autoconfigure.DynamicProxyBeanAutoConfiguration
+ cn.xphsc.web.boot.proxy.autoconfigure.DynamicProxyBeanAutoConfiguration,\
+ cn.xphsc.web.boot.version.autoconfigure.ApiVersionAutoConfiguration,\
+ cn.xphsc.web.boot.strategy.autoconfigure.IStrategyAutoConfiguration,\
+ cn.xphsc.web.boot.cache.autoconfigure.LRUCacheAutoConfiguration
  # Environment Post Processors
 org.springframework.boot.env.EnvironmentPostProcessor=\
   cn.xphsc.web.boot.envencrypt.processor.EnvEncryptEnvironmentPostProcessor

@@ -16,66 +16,66 @@
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
-    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
-    <springProperty scope="context" name="springAppName" source="spring.application.name" />
-    <conversionRule conversionWord="msg" converterClass="com.vrv.vap.log.sensitive.SensitiveMessageConverter"/>
-    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder class="cn.xphsc.web.logger.logback.sensitive.SensitivePatternLayoutEncoder">
-         <!--   <pattern>%d{ISO8601}  %p %t %c{0}.%M - %msg%n%xException</pattern>-->
-            <sensitiveEnable>true</sensitiveEnable>
-            <sensitiveData>idcard,idNo,phone,email,idNumber,password,key,KEY,pwd</sensitiveData>
-            <mdcKeys>sessionId</mdcKeys>
-            <depth>128</depth>
-            <maxLength>2048</maxLength>
-            <charset>UTF-8</charset>
-        </encoder>
-       <!-- <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%d{ISO8601}  %p %t %c{0}.%M - %msg%n%xException</pattern>
-        </layout>-->
-    </appender>
-    <appender name="RollingFile"
-              class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOGS}/${springAppName}.log</file>
-        <!--<encoder
+	<include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+	<include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+	<springProperty scope="context" name="springAppName" source="spring.application.name" />
+	<conversionRule conversionWord="msg" converterClass="cn.xphsc.web.logger.logback.sensitive.SensitiveMessageConverter"/>
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="cn.xphsc.web.logger.logback.sensitive.SensitivePatternLayoutEncoder">
+			<!--   <pattern>%d{ISO8601}  %p %t %c{0}.%M - %msg%n%xException</pattern>-->
+			<sensitiveEnable>true</sensitiveEnable>
+			<sensitiveData>idcard,idNo,phone,email,idNumber,password,key,KEY,pwd</sensitiveData>
+			<mdcKeys>sessionId</mdcKeys>
+			<depth>128</depth>
+			<maxLength>2048</maxLength>
+			<charset>UTF-8</charset>
+		</encoder>
+		<!-- <layout class="ch.qos.logback.classic.PatternLayout">
+             <pattern>%d{ISO8601}  %p %t %c{0}.%M - %msg%n%xException</pattern>
+         </layout>-->
+	</appender>
+	<appender name="RollingFile"
+			  class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOGS}/${springAppName}.log</file>
+		<!--<encoder
                 class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>%d{ISO8601}  %p %t %c{0}.%M - %msg%n%xException</pattern>
         </encoder>-->
-        <encoder class="cn.xphsc.web.logger.logback.sensitive.SensitivePatternLayoutEncoder">
-            <sensitiveEnable>true</sensitiveEnable>
-            <sensitiveData>idcard,idNo,phone,,email,idNumber,password,key,KEY,pwd,sessionId</sensitiveData>
-            <mdcKeys>sessionId</mdcKeys>
-            <depth>128</depth>
-            <maxLength>2048</maxLength>
-            <charset>UTF-8</charset>
-        </encoder>
-       <!-- <sensitiveData>idcard,idNo,idNumber</sensitiveData>-->
-        <rollingPolicy
-                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- rollover daily and when the file reaches 10 MegaBytes -->
-            <fileNamePattern>${LOGS}/${springAppName}-%d{yyyy-MM-dd}.%i.log
-            </fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy
-                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>10MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-        </rollingPolicy>
-    </appender>
+		<encoder class="cn.xphsc.web.logger.logback.sensitive.SensitivePatternLayoutEncoder">
+			<sensitiveEnable>true</sensitiveEnable>
+			<sensitiveData>idcard,idNo,phone,,email,idNumber,password,key,KEY,pwd,sessionId</sensitiveData>
+			<mdcKeys>sessionId</mdcKeys>
+			<depth>128</depth>
+			<maxLength>2048</maxLength>
+			<charset>UTF-8</charset>
+		</encoder>
+		<!-- <sensitiveData>idcard,idNo,idNumber</sensitiveData>-->
+		<rollingPolicy
+				class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily and when the file reaches 10 MegaBytes -->
+			<fileNamePattern>${LOGS}/${springAppName}-%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+					class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+	</appender>
 
-    <logger name="com">
-        <level value="INFO" />
-    </logger>
+	<logger name="com">
+		<level value="INFO" />
+	</logger>
 
-    <logger name="org">
-        <level value="INFO" />
-    </logger>
+	<logger name="org">
+		<level value="INFO" />
+	</logger>
 
-    <root level="INFO">
+	<root level="INFO">
 
-        <appender-ref ref="stdout" />
-       <!-- <appender-ref ref="SensitiveAppender"/>-->
-        <appender-ref ref="RollingFile"/>
-    </root>
+		<appender-ref ref="stdout" />
+		<!-- <appender-ref ref="SensitiveAppender"/>-->
+		<appender-ref ref="RollingFile"/>
+	</root>
 </configuration>
 ```
 ## log4j使用详情
@@ -99,9 +99,10 @@
                              onMatch="ACCEPT"
                              onMismatch="DENY"/>
             <log4jSensitivePatternLayout pattern="${commonPattern}" header="${header}">
-                <log4jSensitivePatternlaces>
-                    <keys>certificateNo</keys>
-                </log4jSensitivePatternlaces>
+                <log4jSensitivePatternReplaces>
+                    <replace/>
+                    <keys>idcard,certificateNo</keys>
+                </log4jSensitivePatternReplaces>
             </log4jSensitivePatternLayout>
         </Console>
 
@@ -115,9 +116,10 @@
                 <ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL"/>
             </Filters>
             <log4jSensitivePatternLayout pattern="${commonPattern}" header="${header}">
-                <log4jSensitivePatternlaces>
-                    <keys>certificateNo,certificate</keys>
-                </log4jSensitivePatternlaces>
+                <log4jSensitivePatternReplaces>
+                    <replace/>
+                    <keys>certificateNo,certificate,idcard</keys>
+                </log4jSensitivePatternReplaces>
             </log4jSensitivePatternLayout>
             <Policies>
                 <TimeBasedTriggeringPolicy/>
@@ -136,9 +138,10 @@
             </Filters>
 
             <log4jSensitivePatternLayout pattern="${commonPattern}" header="${header}">
-                <log4jSensitivePatternlaces>
-                    <keys>certificateNo,certificate,cardtelno</keys>
-                </log4jSensitivePatternlaces>
+                <log4jSensitivePatternReplaces>
+                    <replace/>
+                    <keys>certificateNo,certificate,cardtelno,idcard</keys>
+                </log4jSensitivePatternReplaces>
             </log4jSensitivePatternLayout>
             <Policies>
                 <TimeBasedTriggeringPolicy/>
@@ -146,7 +149,7 @@
             </Policies>
             <DefaultRolloverStrategy max="99999"></DefaultRolloverStrategy>
         </RollingFile>
-        
+
     </Appenders>
     <Loggers>
         <Root level="INFO">

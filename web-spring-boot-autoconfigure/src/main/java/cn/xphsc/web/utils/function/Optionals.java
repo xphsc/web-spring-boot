@@ -17,10 +17,16 @@ package cn.xphsc.web.utils.function;
 import cn.xphsc.web.common.lang.tuple.Tuple;
 import cn.xphsc.web.common.lang.tuple.Tuple2;
 import cn.xphsc.web.common.lang.tuple.TupleFunction2;
+
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
+
 /**
  * {@link Optional}
  * @author <a href="xiongpeih@163.com">huipei.x</a>
@@ -47,7 +53,51 @@ public class Optionals {
     public static <T> OptionalConsumer<T> ifPresentOrElse(Consumer<T> c, Runnable r) {
         return new OptionalConsumer<>(c, r);
     }
+    /**
+     *   Optional 不满足条件时运行 fallback
+     */
+    public static <T> Optional<T> filterOrElse(Optional<T> opt, Predicate<T> predicate, Runnable onFailure) {
+        if (opt.isPresent() && predicate.test(opt.get())) {
+            return opt;
+        } else {
+            onFailure.run();
+            return Optional.empty();
+        }
+    }
 
+
+    /**
+     *   Optional 映射，否则返回默认值（带 Supplier）
+     */
+    public static <T, R> R mapOrElse(Optional<T> opt, Function<T, R> onSuccess, Supplier<R> onEmpty) {
+        return opt.map(onSuccess).orElseGet(onEmpty);
+    }
+
+    /**
+     *   peek：用于日志打印/调试
+     */
+    public static <T> Optional<T> peek(Optional<T> opt, Consumer<T> action) {
+        opt.ifPresent(action);
+        return opt;
+    }
+
+    public static <T> Stream<T> toStream(Optional<T> opt) {
+        return opt.map(Stream::of).orElseGet(Stream::empty);
+    }
+
+    // Optional<List<T>> → List<T>
+    public static <T> List<T> flatten(Optional<List<T>> optList) {
+        return optList.orElse(Collections.emptyList());
+    }
+
+    //  安全执行代码块，异常返回 Optional.empty()
+    public static <T> Optional<T> tryOptional(Supplier<T> supplier) {
+        try {
+            return Optional.ofNullable(supplier.get());
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
     public static class OptionalConsumer<T> implements Consumer<Optional<T>> {
 
         private final Consumer<T> c;

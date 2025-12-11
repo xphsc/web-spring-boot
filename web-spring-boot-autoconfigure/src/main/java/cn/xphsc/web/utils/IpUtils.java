@@ -15,6 +15,8 @@
  */
 package cn.xphsc.web.utils;
 
+import cn.xphsc.web.common.lang.net.IPs;
+
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -25,7 +27,7 @@ import java.net.UnknownHostException;
  * @description:
  * @since 1.0.0
  */
-public class IpUtils {
+public class IpUtils extends IPs {
     public static String getIpAddress(HttpServletRequest request) {
         if (request == null) {
             return null;

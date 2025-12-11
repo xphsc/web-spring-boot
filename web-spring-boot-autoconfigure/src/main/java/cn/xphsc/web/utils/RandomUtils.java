@@ -79,6 +79,10 @@ public class RandomUtils {
 
 
     }
+    public static <T> T random(T[] arr) {
+        return arr[randomInt(arr.length)];
+    }
+
     public static SecureRandom createSecureRandom(byte[] seed) {
         return null == seed ? new SecureRandom() : new SecureRandom(seed);
     }

@@ -17,6 +17,38 @@ public class TestDictDTO {
     @DictTranslation(dictTransHandler =TestDictHandler.class)
       public  Response   test()  {}
 ```
+4.2 支持枚举(2.0.4和3.0.4以上)  以下例子仅供参考
+~~~~
+     model
+public class TestDictDTO {
+    @DictField(dictName = "sex")
+    private  int sex;
+    private String sexName;
+     @DictField(dictName = "user_status")  // 关联字典名称
+    private UserDictStatus status;  
+    controller
+   public class TestModelController {}
+    @DictTranslation(dictTransHandler =TestDictHandler.class)
+      public  Response   test()  {}
+@Component
+public class UserDictTransHandler implements DictTransHandler {
+
+    @Override
+    public Map<String, String> dictTransByName(String dictName) {
+        if ("user_status".equals(dictName)) {
+            Map<String, String> dict = new HashMap<>();
+            dict.put("ACTIVE", "激活");
+            dict.put("INACTIVE", "未激活");
+            dict.put("LOCKED", "锁定");
+            return dict;
+        }
+        return Collections.emptyMap();
+    }
+}
+
+}  
+      
+```
 Properties
 ```
 web.dict=true
@@ -33,7 +65,6 @@ public class TestDictHandler implements DictTransHandler {
     public Map<String, String> dictTransByName(String dictName) {
         Map<String,String> map=new HashMap<>();
         switch (dictName) {
-
             case "sex":
                 map.put("1", "男");
                 map.put("2", "女");

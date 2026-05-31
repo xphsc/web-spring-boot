@@ -28,7 +28,7 @@ web Spring Boot` web Spring Boot低耦合集成的web高度扩展组件
  <dependency>
  <groupId>cn.xphsc.boot</groupId>
     <artifactId>web-spring-boot-starter</artifactId>
-    <version>2.0.4</version>
+    <version>2.0.5</version>
  </dependency>
 ~~~
 spring boot3以上版本
@@ -36,7 +36,7 @@ spring boot3以上版本
  <dependency>
  <groupId>cn.xphsc.boot</groupId>
     <artifactId>web-spring-boot-starter</artifactId>
-    <version>3.0.3</version>
+    <version>3.0.4</version>
  </dependency>
 ~~~
 #### 包含组件
@@ -66,6 +66,7 @@ spring boot3以上版本
 | common tools            | 基于Java的 实现的common long  以及工具             |
 | LRUcache                | 供易于配置和使用的 LRU (Least Recently Used) 缓存机制 |
 | statemachine            | 极简的状态机实现以及使用                             |
+| duplicate            | 极简的查重策略实现以及使用 [2.0.5及以上]                           |
 | common tools                   | 通用工具使用                                   |
 
 
@@ -85,11 +86,12 @@ spring boot3以上版本
 11. [参数验证](doc/parameter-validation.md)
 12. [xss过滤](doc/XSS-filtering.md)
 13. [rest](doc/rest.md)
-14. [event](doc/event.md)
+14. [事件](doc/event.md)
 15. [strategy](doc/strategy.md)
-16. [logbackandlog4j2-sensitive](doc/logbackandlog4j2-sensitive.md)
-17. [apiversion](doc/apiversion.md)
-18. [LRUcache](doc/LRUcache.md)
-19. [statemachine](doc/statemachine.md)
-20. [common tools](doc/tools.md)
+16. [logback和log4j2-脱敏](doc/logbackandlog4j2-sensitive.md)
+17. [API版本](doc/apiversion.md)
+18. [lru缓存](doc/LRUcache.md)
+19. [状态机](doc/statemachine.md)
+20.  [查重策略](doc/duplicate.md)
+20. [通用工具](doc/tools.md)
 

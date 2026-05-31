@@ -46,11 +46,19 @@
       - RetryTemplate 重试工具模板
   - 1.7 servlet  通用servlet工具
       - HttpServletRequestWrapperBuilder  servlet工具  
-  - 1.8 spring  通用spring工具
+  - 1.8 tree  通用树工具 [2.0.5及以上]
+    - Trees  树工具 树构造树排序
+  - 1.9 diff  通用配置比较（json Yaml Properties）工具 [2.0.5及以上]
+    - ConfigDiffs  树工具 树构造树排序
+  - 1.10 spring  通用spring工具
     - AnnotationUtils  annotation工具
     - BeanRegistrarUtils  bean注册工具
     - ProxyTargets  代理工具
     - ValueResolverUtils  工具
+    - SpringAopUtils  aop工具 [2.0.5及以上]
+    - SpringBeanUtils  bean工具 [2.0.5及以上]
+    - SpringEventUtils  事件工具 [2.0.5及以上]
+    - SpringPropertyUtils  工具 [2.0.5及以上]
 2. utils工具
  - function:  Builders 构建工具  Conditionals  条件判断工具 Functions 工具 Lambdas获取字段 Optionals  Streams  集合流式工具
  - AesUtils  aes加密工具

@@ -40,3 +40,74 @@ StateMachineBuilder<WarehouseState, StateMachineImplTest.WarehouseEvent, Object>
        WarehouseState S1 = stateMachine.fire(WarehouseState.EMPTY, WarehouseEvent.PUT_IN, "context");
         Assertions.assertTrue(S1 == WarehouseState.FULL);
 ~~~
+1.3 使用状态机条件以及方式
+~~~
+    @Test
+    public void shouldSelectMatchedTransitionByPriorityAndRunLifecycleActions() {
+        String machineName = "order-flow-priority";
+        StateMachineBuilderFactory.remove(machineName);
+        List<String> trace = new ArrayList<>();
+        StateMachineBuilder<String, String, RouteContext> builder = StateMachineBuilderFactory.create(machineName);
+        builder.listener(new StateMachineListener<String, String, RouteContext>() {
+            @Override
+            public void beforeTransition(TransitionContext<String, String, RouteContext> context) {
+                trace.add("before:" + context.getSourceState() + "->" + context.getTargetState());
+            }
+
+            @Override
+            public void afterTransition(TransitionContext<String, String, RouteContext> context) {
+                trace.add("after:" + context.getSourceState() + "->" + context.getTargetState());
+            }
+        });
+        builder.exit("CREATED", (from, to, event, context) -> trace.add("exit:" + from));
+        builder.entry("MANUAL_REVIEW", (from, to, event, context) -> trace.add("entry:" + to));
+        builder.entry("APPROVED", (from, to, event, context) -> trace.add("entry:" + to));
+        builder.entry("REJECTED", (from, to, event, context) -> trace.add("entry:" + to));
+
+        builder.transition()
+                .from("CREATED")
+                .to("APPROVED")
+                .on("SUBMIT")
+                .when(context -> context.vip)
+                .when(context -> context.amount >= 100)
+                .priority(100)
+                .then((from, to, event, context) -> trace.add("action:" + to));
+
+        builder.transition()
+                .from("CREATED")
+                .to("MANUAL_REVIEW")
+                .on("SUBMIT")
+                .when(context -> context.amount >= 100)
+                .priority(10)
+                .then((from, to, event, context) -> trace.add("action:" + to));
+
+        builder.transition()
+                .from("CREATED")
+                .to("REJECTED")
+                .on("SUBMIT")
+                .otherwise()
+                .then((from, to, event, context) -> trace.add("action:" + to));
+
+        StateMachine<String, String, RouteContext> stateMachine = builder.build();
+        System.out.println(stateMachine.fire("CREATED", "SUBMIT", new RouteContext(true, 120, false)));
+        //assertEquals("APPROVED", stateMachine.fire("CREATED", "SUBMIT", new RouteContext(true, 120, false)));
+        System.out.println(stateMachine.fire("CREATED", "SUBMIT", new RouteContext(true, 120, false)));
+
+       // assertEquals("MANUAL_REVIEW", stateMachine.fire("CREATED", "SUBMIT", new RouteContext(false, 120, false)));
+        System.out.println( stateMachine.fire("CREATED", "SUBMIT", new RouteContext(false, 120, false)));
+       //assertEquals("REJECTED", stateMachine.fire("CREATED", "SUBMIT", new RouteContext(false, 10, false)));
+        System.out.println(stateMachine.fire("CREATED", "SUBMIT", new RouteContext(false, 10, false)));
+
+        //assertEquals(3, stateMachine.getTransitions("CREATED", "SUBMIT").size());
+        System.out.println(stateMachine.getTransitions("CREATED", "SUBMIT").size());
+
+        /*assertEquals(
+                Arrays.asList(
+                        "before:CREATED->APPROVED", "exit:CREATED", "action:APPROVED", "entry:APPROVED", "after:CREATED->APPROVED",
+                        "before:CREATED->MANUAL_REVIEW", "exit:CREATED", "action:MANUAL_REVIEW", "entry:MANUAL_REVIEW", "after:CREATED->MANUAL_REVIEW",
+                        "before:CREATED->REJECTED", "exit:CREATED", "action:REJECTED", "entry:REJECTED", "after:CREATED->REJECTED"
+                ),
+                trace
+        );*/
+    }
+~~~

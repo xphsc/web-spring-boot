@@ -20,7 +20,7 @@ import cn.xphsc.web.sensitive.annotation.Sensitive;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: Sensitive Handler
  * @since 1.0.0
  */
 public interface SensitiveHandler {

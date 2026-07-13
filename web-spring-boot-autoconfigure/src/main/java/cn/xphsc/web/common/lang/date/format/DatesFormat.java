@@ -19,8 +19,11 @@ package cn.xphsc.web.common.lang.date.format;
 
 import cn.xphsc.web.common.exception.Exceptions;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public  class DatesFormat {
 
@@ -42,6 +45,8 @@ public  class DatesFormat {
     public static final String YMD_HM2 = "yyyyMMddHHmm";
     public static final String YMD_HMS2 = "yyyyMMddHHmmss";
     public static final String YMD_HMSS2 = "yyyyMMddHHmmssSSS";
+    public static final String YYYY_MM_DD_HH_MM_SS_SSS = "yyyy-MM-dd HH:mm:ss.SSS";
+
     public static final String[] PARSE_PATTERN_GROUP1 = {YMD_HMS, YMD, YM, YMD_HM, YMD_HMSS};
     public static final String[] PARSE_PATTERN_GROUP2 = {YMD_HMS1, YMD1, YM1, YMD_HM1, YMD_HMSS1};
     public static final String[] PARSE_PATTERN_GROUP3 = {YMD_HMS2, YMD2, YM2, YMD_HM2, YMD_HMSS2};
@@ -61,6 +66,8 @@ public  class DatesFormat {
     private static final String PAD_HMS = "%04d-%02d-%02d";
     private static final String PAD_YMD_HMS = "%04d-%02d-%02d %02d:%02d:%02d";
     private static final String PAD_YMD_HMSS = "%04d-%02d-%02d %02d:%02d:%02d %03d";
+    private static final Map<String, DateTimeFormatter> formatterCache = new ConcurrentHashMap<>();
+    public static final DateTimeFormatter YYYY_MM_DD_HH_MM_SS_SSS_FORMATTER = getFormatter(YYYY_MM_DD_HH_MM_SS_SSS);
 
     DatesFormat() {
     }
@@ -283,4 +290,9 @@ public  class DatesFormat {
         return String.format(PAD_YMD_HMSS, year, month, day, hour, minute, second, milli);
     }
 
+    public static DateTimeFormatter getFormatter(String formatterStr) {
+        return formatterCache.computeIfAbsent(formatterStr, key ->
+                DateTimeFormatter.ofPattern(formatterStr).withZone(ZoneId.systemDefault())
+        );
+    }
 }

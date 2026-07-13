@@ -18,6 +18,7 @@ package cn.xphsc.web.boot.response.interceptor;
 
 
 
+import cn.xphsc.web.boot.response.autoconfigure.ResponseResultProperties;
 import cn.xphsc.web.response.annotation.ResponseResult;
 import cn.xphsc.web.common.response.Response;
 import cn.xphsc.web.utils.JacksonUtils;
@@ -35,13 +36,12 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-
 import static cn.xphsc.web.common.lang.reflect.Methods.invokeMethod;
 
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: ResponseResult Handler
  * @since 1.0.0
  */
 @ControllerAdvice
@@ -49,7 +49,13 @@ public class ResponseResultHandler<T> implements ResponseBodyAdvice<Object>  {
 
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final ResponseResultProperties responseResultProperties;
+
     private ResponseResult responseResult;
+
+    public ResponseResultHandler(ResponseResultProperties responseResultProperties) {
+        this.responseResultProperties = responseResultProperties;
+    }
     /**
      * 请求中是否包含了 响应需要被包装的标记，如果没有，则直接返回，不需要重写返回体
      * @param methodParameter
@@ -58,74 +64,100 @@ public class ResponseResultHandler<T> implements ResponseBodyAdvice<Object>  {
      */
     @Override
     public boolean supports(MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> aClass) {
-        Annotation[] annotations = methodParameter.getDeclaringClass().getAnnotations();
-        boolean result = false;
-        if(annotations!=null && annotations.length>0){
-            for (Annotation annotation : annotations) {
-                if(annotation instanceof ResponseResult ){
-                     responseResult= (ResponseResult) annotation;
-                     result=true;
+        // 检查类级别注解
+        Annotation[] classAnnotations = methodParameter.getDeclaringClass().getAnnotations();
+        if(classAnnotations != null && classAnnotations.length > 0){
+            for (Annotation annotation : classAnnotations) {
+                if(annotation instanceof ResponseResult){
+                    responseResult = (ResponseResult) annotation;
+                    return true;
                 }
             }
         }
-        if(methodParameter.getMethod().isAnnotationPresent(ResponseResult.class)){
-            responseResult= methodParameter.getMethod().getAnnotation(ResponseResult.class);
-            result=true;
+        // 检查方法级别注解
+        if(methodParameter.hasMethodAnnotation(ResponseResult.class)){
+            responseResult = methodParameter.getMethodAnnotation(ResponseResult.class);
+            return true;
         }
-        return result ;
+        if(responseResultProperties != null) {
+            Boolean enabled = responseResultProperties.getEnabled();
+            if(enabled != null && enabled) {
+                return true;
+            }
+        }
+
+        return false;
     }
-
-
     /**
      * 对 响应体 进行包装; 除此之外还可以对响应体进行统一的加密、签名等
      * @param responseBody       请求的接口方法执行后得到返回值(返回响应)
-     * @param methodParameter
-     * @param mediaType
-     * @param aClass
-     * @param serverHttpRequest
-     * @param serverHttpResponse
-     * @return
      */
     @Override
     public Object beforeBodyWrite(Object responseBody, MethodParameter methodParameter, MediaType mediaType, Class<? extends HttpMessageConverter<?>> aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
         if(logger.isDebugEnabled()){
             logger.debug("返回响应 包装进行中。。。");
         }
+
         T entity;
-        String okName;
-        okName=responseResult.responseOk();
+        String okName = getResponseOkMethodName();
+        Class<?> responseClazz = getResponseClass();
+
+        try {
+            Constructor constructor = responseClazz.getDeclaredConstructor();
             try {
-                Constructor constructor=  responseResult.responseClass().getDeclaredConstructor();
-                try {
-                    entity = (T) constructor.newInstance();
-                } catch (InvocationTargetException e) {
-                    throw new RuntimeException(e);
-                } catch (InstantiationException e) {
-                    throw new RuntimeException(e);
-                } catch (IllegalAccessException e) {
-                    throw new RuntimeException(e);
-                }
-            } catch (NoSuchMethodException e) {
-                throw new RuntimeException(e);
+                entity = (T) constructor.newInstance();
+            } catch (InvocationTargetException | InstantiationException | IllegalAccessException e) {
+                throw new RuntimeException("无法实例化响应类: " + responseClazz.getName(), e);
             }
-        // boolean类型时判断一些数据库新增、更新、删除的操作是否成功
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException("响应类缺少无参构造函数: " + responseClazz.getName(), e);
+        }
         if (responseBody instanceof Boolean) {
             if ((Boolean) responseBody) {
-                entity= invokeMethod(entity, okName, responseBody);
+                entity = invokeMethod(entity, okName, responseBody);
             }
-        }  else if (responseBody instanceof String) {
-            entity= invokeMethod(entity, okName, responseBody);
+        } else if (responseBody instanceof String) {
+            entity = invokeMethod(entity, okName, responseBody);
             return JacksonUtils.toJSONString(entity);
         } else if (responseBody instanceof ResponseEntity || responseBody instanceof Response || responseBody.equals(entity)) {
             return responseBody;
-        }else if (aClass.isAssignableFrom(StringHttpMessageConverter.class)) {
+        } else if (aClass.isAssignableFrom(StringHttpMessageConverter.class)) {
             return responseBody;
         } else {
-            entity= invokeMethod(entity, okName, responseBody);
-
+            entity = invokeMethod(entity, okName, responseBody);
         }
         return entity;
     }
+    /**
+     * 获取响应OK方法名，优先级：注解配置 > 配置文件 > 默认值
+     * @return
+     */
+    private String getResponseOkMethodName() {
+        if (responseResult != null && !responseResult.responseOk().isEmpty()) {
+            return responseResult.responseOk();
+        }
 
+        if (responseResultProperties.getDefaultOkMethod() != null && !responseResultProperties.getDefaultOkMethod().isEmpty()) {
+            return responseResultProperties.getDefaultOkMethod();
+        }
+        return "ok";
+    }
+    /**
+     * 获取响应类，优先级：注解配置 > 配置文件 > 默认值
+     */
+    private Class<?> getResponseClass() {
+        if (responseResult != null && responseResult.responseClass() != Void.class) {
+            return responseResult.responseClass();
+        }
+
+        if (responseResultProperties.getDefaultClass() != null && !responseResultProperties.getDefaultClass().isEmpty()) {
+            try {
+                return Class.forName(responseResultProperties.getDefaultClass());
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException("配置的响应类未找到: " + responseResultProperties.getDefaultClass(), e);
+            }
+        }
+        return Response.class;
+    }
 
 }

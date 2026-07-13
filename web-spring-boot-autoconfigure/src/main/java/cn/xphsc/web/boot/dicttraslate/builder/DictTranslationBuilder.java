@@ -15,7 +15,6 @@
  */
 package cn.xphsc.web.boot.dicttraslate.builder;
 
-
 import cn.xphsc.web.common.context.SpringContextHolder;
 import cn.xphsc.web.dicttraslate.annotation.*;
 import cn.xphsc.web.dicttraslate.entity.DictTransType;
@@ -34,7 +33,7 @@ import java.util.Map;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: DictTranslation Builder
  * @since 1.0.0
  */
 public class DictTranslationBuilder {
@@ -135,7 +134,6 @@ public class DictTranslationBuilder {
                     Map<String, String> dict = dictTranslationEntity.getDictDetail();
 
                     Class entityClass = entity.getClass();
-
                     if (entityClass != null) {
                         Field dictField = entityClass.getDeclaredField(dictName);
                         dictField.setAccessible(true);
@@ -148,6 +146,12 @@ public class DictTranslationBuilder {
                         Object preValue = dictField.get(entity);
                         if (!ObjectUtils.isEmpty(preValue)) {
                             String preValueStr = String.valueOf(preValue);
+
+                            // 增加枚举类型处理
+                            if (dictField.getType().isEnum()) {
+                                preValueStr = ((Enum) preValue).name();
+                            }
+
                             // 需要赋值的字段
                             if (dictTranslationEntity.isMultiple()) {
                                 StringBuffer buffer = new StringBuffer();
@@ -183,7 +187,6 @@ public class DictTranslationBuilder {
         } catch (Exception e) {
             log.error("dict Translation having an error. " + e.toString());
         }
-
     }
 
 
@@ -197,9 +200,15 @@ public class DictTranslationBuilder {
             String nullValue = dictTranslationEntity.getNullValue();
             String undefinedValue = dictTranslationEntity.getUndefinedValue();
             Map<String, String> dict = dictTranslationEntity.getDictDetail();
+            Object preValueObj = entity.get(dictTranslationEntity.getSourceField());
             String preValue = null;
-            if(StringUtils.isNotBlank(dictTranslationEntity.getSourceField())){
-                preValue = entity.get(dictTranslationEntity.getSourceField()).toString();  
+            if (preValueObj != null) {
+                // 增加枚举类型处理
+                if (preValueObj instanceof Enum) {
+                    preValue = ((Enum) preValueObj).name();
+                } else {
+                    preValue = preValueObj.toString();
+                }
             }
             if (StringUtils.isNotEmpty(preValue)) {
                 if (dictTranslationEntity.isMultiple()) {
@@ -215,11 +224,9 @@ public class DictTranslationBuilder {
                     entity.put(transField, name == null ? undefinedValue : name);
                 }
             } else {
-                entity.put(entity, nullValue);
+                entity.put(transField, nullValue);
             }
-
         }
-
     }
 
 

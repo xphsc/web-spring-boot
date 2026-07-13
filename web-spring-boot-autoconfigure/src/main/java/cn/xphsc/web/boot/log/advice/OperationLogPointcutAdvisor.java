@@ -30,7 +30,7 @@ import java.lang.annotation.Annotation;
 /**
  * {@link AbstractPointcutAdvisor}
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: OperationLog Pointcut Advisor
  * @since 1.0.0
  */
 public class OperationLogPointcutAdvisor extends AbstractPointcutAdvisor implements ApplicationContextAware {

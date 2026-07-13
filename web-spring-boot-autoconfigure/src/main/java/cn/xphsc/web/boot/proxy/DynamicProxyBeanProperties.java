@@ -6,7 +6,7 @@ import static cn.xphsc.web.common.WebBeanTemplate.PROXY_PREFIX;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: DynamicProxyBean Properties
  * @since 1.1.8
  */
 @ConfigurationProperties(prefix = DYNAMIC_BEANPREFIX)

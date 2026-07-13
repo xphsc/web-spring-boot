@@ -32,7 +32,7 @@ import java.util.Map;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: Csrf Filter
  * @since 1.0.0
  */
 public class CsrfFilter implements Filter {

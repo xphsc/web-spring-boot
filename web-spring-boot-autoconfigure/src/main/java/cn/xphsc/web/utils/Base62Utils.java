@@ -21,7 +21,8 @@ import java.util.Arrays;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: Base62工具类，提供Base62编码和解码功能
+ *  该类实现了数字与Base62字符串之间的相互转换
  * @since 2.0.0
  */
 public class Base62Utils {

@@ -16,7 +16,8 @@ package cn.xphsc.web.utils;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: CollectionUtils 类继承自 Collects 类，提供集合操作的工具方法。
+ * 该类作为集合工具类的扩展实现，包含了各种集合处理的实用方法。
  * @since 2.0.2
  */
 public class CollectionUtils extends Collects{

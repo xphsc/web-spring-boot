@@ -30,7 +30,10 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: 状态机构建器实现类
+ *  @param <S> 状态类型
+ *  @param <E> 事件类型
+ *  @param <C> 上下文类型
  * @since 2.0.1
  */
 public class StateMachineBuilderImpl<S, E, C> implements StateMachineBuilder<S, E, C> {

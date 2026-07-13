@@ -23,11 +23,15 @@ import cn.xphsc.web.common.lang.date.format.DatesFormat;
 import cn.xphsc.web.common.lang.date.format.FastDateFormat;
 import cn.xphsc.web.common.lang.regexp.Matches;
 import cn.xphsc.web.common.lang.type.ConvertTypes;
+import cn.xphsc.web.utils.ObjectUtils;
 import cn.xphsc.web.utils.StringUtils;
 import static cn.xphsc.web.common.lang.date.format.DatesFormat.*;
+
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 
@@ -389,8 +393,81 @@ public class Dates  {
         }
     }
 
+    public static Date plusSeconds(Date date, int amount) {
+        return add(date, 13, amount);
+    }
 
+    public static Date plusWeeks(Date date, int amount) {
+        return add(date, 3, amount);
+    }
 
+    public static Date plusYears(Date date, int amount) {
+        return add(date, 1, amount);
+    }
+    /**
+     * 设置日期的年份
+     * @param date   日期对象
+     * @param amount 年份值
+     * @return 设置年份后的日期对象
+     */
+    public static Date setYear( Date date, final int amount) {
+        return set(toCalendar(date), Calendar.YEAR, amount).getTime();
+    }
+
+    /**
+     * 设置日期的月份
+     * @param date   日期对象
+     * @param amount 月份值
+     * @return 设置月份后的日期对象
+     */
+    public static Date setMonth( Date date, final int amount) {
+        return set(toCalendar(date), Calendar.MONTH, amount).getTime();
+    }
+
+    /**
+     * 设置日期的天数
+     *
+     * @param date   日期对象
+     * @param amount 天数值
+     * @return 设置天数后的日期对象
+     */
+    public static Date setDay( Date date, final int amount) {
+        return set(toCalendar(date), Calendar.DAY_OF_MONTH, amount).getTime();
+    }
+
+    /**
+     * 设置日期的小时数
+     *
+     * @param date   日期对象
+     * @param amount 小时值
+     * @return 设置小时数后的日期对象
+     */
+    public static Date setHour( Date date, final int amount) {
+        return set(toCalendar(date), Calendar.HOUR_OF_DAY, amount).getTime();
+    }
+
+    /**
+     * 设置日期的分钟数
+     * @param date   日期对象
+     * @param amount 分钟值
+     * @return 设置分钟数后的日期对象
+     */
+    public static Date setMinute( Date date, final int amount) {
+        return set(toCalendar(date), Calendar.MINUTE, amount).getTime();
+    }
+
+    public static Calendar set( Calendar calendar, int field, final int amount) {
+        if (field >= 0 && field < Calendar.FIELD_COUNT) {
+            //noinspection MagicConstant
+            calendar.set(field, amount);
+        }
+        return calendar;
+    }
+    public static Calendar toCalendar( Date date) {
+        final Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        return c;
+    }
     /**
      * 获取自增时间
      * @param d     开始时间
@@ -648,7 +725,49 @@ public class Dates  {
     public static long intervalMs(Date date1, Date date2) {
         return Math.abs(date1.getTime() - date2.getTime());
     }
+    /**
+     * 计算两个日期之间的分钟差
+     * @param date1 第一个日期
+     * @param date2 第二个日期
+     * @return 时间差的分钟数，任一输入为null时返回null
+     */
+    public static Long betweenMinutes(final Date date1, final Date date2) {
+        return Optional.ofNullable(between(date1, date2)).map(Duration::toMinutes).orElse(null);
+    }
 
+    /**
+     * 计算两个日期之间的小时差
+     * @param date1 第一个日期
+     * @param date2 第二个日期
+     * @return 时间差的小时数，任一输入为null时返回null
+     */
+    public static Long betweenHours(final Date date1, final Date date2) {
+        return Optional.ofNullable(between(date1, date2)).map(Duration::toHours).orElse(null);
+    }
+
+    /**
+     * 计算两个日期之间的天数差
+     * @param date1 第一个日期
+     * @param date2 第二个日期
+     * @return 时间差的天数，任一输入为null时返回null
+     */
+    public static Long betweenDays(final Date date1, final Date date2) {
+        return Optional.ofNullable(between(date1, date2)).map(Duration::toDays).orElse(null);
+    }
+
+    /**
+     * 计算两个日期之间的Duration对象
+     * @param date1 第一个日期
+     * @param date2 第二个日期
+     * @return Duration对象，任一输入为null时返回null
+     */
+    protected static Duration between(final Date date1, final Date date2) {
+        if (ObjectUtils.anyNull(date1, date2)) {
+            return null;
+        }
+        long amount = Math.abs(date1.getTime() - date2.getTime());
+        return Duration.of(amount, ChronoUnit.MILLIS);
+    }
 
 
     /**
@@ -775,6 +894,11 @@ public class Dates  {
     }
 
 
-
+    private static Date add(Date date, int calendarField, int amount) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(calendarField, amount);
+        return c.getTime();
+    }
 
 }

@@ -15,28 +15,31 @@
  */
 package cn.xphsc.web.boot.sensitive.autoconfigure;
 
-
+import cn.xphsc.web.boot.sensitive.advice.SensitiveRestoreRequestBodyAdvice;
+import cn.xphsc.web.boot.sensitive.resolver.SensitiveRestoreGetArgumentResolver;
 import cn.xphsc.web.sensitive.instance.InstanceSensitiveProperties;
 import cn.xphsc.web.boot.sensitive.SensitiveProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;
+
 import static cn.xphsc.web.common.WebBeanTemplate.*;
 
 
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: Sensitive AutoConfiguration
  * @since 1.0.0
  */
 @Configuration
 @EnableConfigurationProperties({SensitiveProperties.class})
 @ConditionalOnProperty(prefix =SENSITIVE_PREFIX, name = ENABLED , havingValue=TRUE , matchIfMissing = true)
-public class SensitiveAutoConfiguration implements Ordered {
+@Import({SensitiveRestoreRequestBodyAdvice.class})
+public class SensitiveAutoConfiguration implements Ordered  {
 
     private SensitiveProperties sensitiveProperties;
      SensitiveAutoConfiguration(SensitiveProperties sensitiveProperties){
@@ -54,4 +57,5 @@ public class SensitiveAutoConfiguration implements Ordered {
     public int getOrder() {
         return sensitiveProperties.getOrder();
     }
+
 }

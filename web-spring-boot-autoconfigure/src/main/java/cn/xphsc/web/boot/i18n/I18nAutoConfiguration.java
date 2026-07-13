@@ -30,7 +30,7 @@ import static cn.xphsc.web.utils.StringUtils.defaultString;
 
 /**
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: I18n Auto Configuration
  * @since 1.0.0
  */
 @Configuration

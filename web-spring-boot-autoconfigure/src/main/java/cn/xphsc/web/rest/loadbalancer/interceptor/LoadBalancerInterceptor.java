@@ -40,7 +40,9 @@ import java.util.Map;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: 负载均衡拦截器类
+ * 该类实现了ClientHttpRequestInterceptor接口，用于在HTTP请求发送前进行负载均衡处理，
+ * 通过拦截客户端HTTP请求来实现服务调用的负载均衡功能
  * @since 1.0.0
  */
 public class LoadBalancerInterceptor  implements ClientHttpRequestInterceptor {

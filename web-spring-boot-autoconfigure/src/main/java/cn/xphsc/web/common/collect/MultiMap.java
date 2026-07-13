@@ -21,7 +21,12 @@ import java.util.function.BiConsumer;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description:  MultiMap接口定义了一个多级映射结构，它继承自Map接口。
+ *  该接口表示一个三层映射关系，其中：
+ * - E: 第一层键类型
+ * - K: 第二层键类型
+ * - V: 第二层值类型
+ *  - M: 第二层映射类型，必须是Map<K,V>的子类型
  * @since 1.1.6
  */
 public interface MultiMap<E, K, V, M extends Map<K, V>> extends Map<E, M> {

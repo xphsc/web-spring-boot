@@ -6,7 +6,8 @@
 
     <groupId>cn.xphsc.boot</groupId>
     <artifactId>web-spring-boot-autoconfigure</artifactId>
-    <version>2.0.3</version>
+    <name>web-spring-boot-autoconfigure</name>
+    <version>2.0.4</version>
      <description>web Spring Boot AutoConfigure 高度扩展组件</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -40,7 +41,6 @@
         <developerConnection>scm:git@github.com:xphsc/web-spring-boot.git</developerConnection>
         <url>git@github.com:xphsc/web-spring-boot.git</url>
     </scm>
-
 
     <dependencies>
         <dependency>
@@ -160,6 +160,15 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.8.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>xphsc</publishingServerId>
+                </configuration>
             </plugin>
         </plugins>
     </build>

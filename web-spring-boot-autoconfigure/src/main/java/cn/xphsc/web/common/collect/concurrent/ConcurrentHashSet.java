@@ -21,7 +21,8 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: ConcurrentHashSet 是一个线程安全的哈希集合实现，继承自 AbstractSet 并实现了 Set 接口和 Serializable 接口。
+ *  该类提供了并发环境下的集合操作支持，允许多个线程同时访问和修改集合
  * @since 1.0.0
  */
 public class ConcurrentHashSet<E> extends AbstractSet<E> implements Set<E>, java.io.Serializable {

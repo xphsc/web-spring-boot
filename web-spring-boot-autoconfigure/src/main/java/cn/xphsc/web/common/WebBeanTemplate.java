@@ -33,6 +33,7 @@ public interface WebBeanTemplate {
     String  I18N_VALIDATOR_PREFIX=I18N_PREFIX+".validator";
       String  CORS_PREFIX=PREFIX+".cors";
     String  RESPONSE_PREFIX=PREFIX+".response";
+    String RESPONSE_RESULT_PREFIX = RESPONSE_PREFIX;
    String  VALIDATION_PREFIX=PREFIX+".validation";
      String SQLINJECTION_PREFIX=PREFIX+".sqlinjection";
         String JDK8TIME_PREFIX=PREFIX+".jdk8time";

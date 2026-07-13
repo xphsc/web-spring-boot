@@ -16,12 +16,15 @@
 package cn.xphsc.web.common.lang.reflect;
 
 import cn.xphsc.web.utils.ClassUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.Predicate;
 import java.util.jar.Attributes;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -42,25 +45,76 @@ public class ClassLoaders {
     private final Set<File> processed = new HashSet<>();
     private final List<String> resolvedClassPaths = new ArrayList<>();
 
-    private final ClassLoader classLoader;
-    private final Set<String> ignoredPackages;
-
+    private  ClassLoader classLoader;
+    private  Set<String> ignoredPackages;
+    private final AtomicLong prependIndex = new AtomicLong(0);
+    private final AtomicLong appendIndex = new AtomicLong(0);
+    private volatile long changeId = 0L;
+    private final Map<ClassLoader, Long> loaders = new WeakHashMap<>();
     public ClassLoaders(final ClassLoader classLoader) {
-
         this.classLoader = classLoader;
         this.ignoredPackages = new HashSet<>();
+        appendClassLoader(Thread.currentThread().getContextClassLoader());
+        appendClassLoader(ClassLoaders.class.getClassLoader());
 
     }
-
+    public ClassLoaders() {
+        appendClassLoader(Thread.currentThread().getContextClassLoader());
+        appendClassLoader(ClassLoaders.class.getClassLoader());
+    }
     public ClassLoaders(final ClassLoader classLoader, final Set<String> ignoredPackages) {
 
         this.classLoader = classLoader;
         this.ignoredPackages = ignoredPackages;
+        appendClassLoader(Thread.currentThread().getContextClassLoader());
+        appendClassLoader(ClassLoaders.class.getClassLoader());
+    }
 
+    public long getChangeId() {
+        return changeId;
+    }
+    public Class<?> loadClass(String name) throws ClassNotFoundException {
+        Collection<ClassLoader> classLoaders = getClassLoaders(null);
+        return loadClass(classLoaders, name);
+    }
+
+    public Class<?> loadClass(Collection<ClassLoader> classLoaders, String name) throws ClassNotFoundException {
+        for (ClassLoader classLoader : classLoaders) {
+            try {
+                Class<?> c = classLoader.loadClass(name);
+                return c;
+            } catch (Throwable ignored) {
+            }
+        }
+        throw new ClassNotFoundException(name);
+    }
+
+    public Collection<ClassLoader> getClassLoaders(Predicate<ClassLoader> predicate) {
+        TreeMap<Long, ClassLoader> map = new TreeMap<>();
+        // 按装入的顺序排序,越早装入的优先级越高
+        for (Map.Entry<ClassLoader, Long> entry : loaders.entrySet()) {
+            if (predicate != null && !predicate.test(entry.getKey())) {
+                continue;
+            }
+            map.put(entry.getValue(), entry.getKey());
+        }
+        return map.values();
+    }
+    public void appendClassLoader(ClassLoader loader) {
+        loaders.putIfAbsent(loader, appendIndex.getAndIncrement());
+        synchronized (this) {
+            changeId++;
+        }
+    }
+
+    public void prependClassLoader(ClassLoader loader) {
+        loaders.putIfAbsent(loader, prependIndex.decrementAndGet());
+        synchronized (this) {
+            changeId++;
+        }
     }
 
     public void addIgnoredPackageName(final String packageName) {
-
         this.ignoredPackages.add(packageName);
 
     }

@@ -24,7 +24,11 @@ import cn.xphsc.web.common.exception.StateMachineException;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: TransitionProvider类实现了Transition接口，用于处理状态机中的状态转换逻辑。
+ *  该类使用泛型参数来定义状态转换的各个组成部分。
+ *  @param <S> 状态类型，表示状态机中的各种状态
+ *  @param <E> 事件类型，表示触发状态转换的事件
+ *  @param <C> 上下文类型，表示状态转换时所需的
  * @since 2.0.1
  */
 public class TransitionProvider<S, E, C> implements Transition<S, E, C> {

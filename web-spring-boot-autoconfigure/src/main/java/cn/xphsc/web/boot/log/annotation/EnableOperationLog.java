@@ -7,7 +7,7 @@ import java.lang.annotation.*;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: EnableOperationLog
  * @since 1.0.0
  */
 @Retention(RetentionPolicy.RUNTIME)

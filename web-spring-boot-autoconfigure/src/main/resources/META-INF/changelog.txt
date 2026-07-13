@@ -1,12 +1,24 @@
 web-spring-boot-starter 2.x Changelog
 ===================================
+Changes in version 2.0.4
+---------------------------------------------
+* BeanByMapper  Support target inheritance without Setter or Lombok.Getter Lombok.Setter copy from parent class
+* Expand Iterables Lists Sets  Sorts utility methods under existing collect packages
+* Add custom printing classes using logs
+* Add a graphical Captchas tool under the lang package
+* Add Field escape adds enumeration types  the dicttraslate package
+* Add result response to global configuration, and annotate that ResponseResult has higher priority than global configuration on methods or classes
+* Expand Dates  utility methods under existing date packages
+* Add desensitization backfill and backfill data through @ SensitiveRestore
+* Add support for get parameter encryption and decryption to decrypt data using @ Decrypt
+---------------------------------------------
 Changes in version 2.0.3
 ---------------------------------------------
 * Add custom exception class configuration for general exceptions
 * Add custom exception class configuration to application logs
 * Add application @LogRecord, log record annotation. The original log record @SysOperationLog annotation is outdated
 * Optimize BeanByMapper copying
-* Add collection sorting tool Sorts and MapSort class
+* Add collection sorting tool Sorts and MapSort Streams class
 * Expand Options and Functions utility methods under existing function packages
 ---------------------------------------------
 Changes in version 2.0.2

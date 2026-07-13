@@ -23,11 +23,10 @@ import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Function;
 import java.util.function.Predicate;
-
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: Lists类提供了操作列表的工具方法集合
  * @since 1.0.0
  */
 public class Lists {
@@ -327,7 +326,7 @@ public class Lists {
         } else if(size <= 0) {
             throw new IllegalArgumentException("Size must be greater than 0");
         } else {
-            return new Lists.Partition(list, size);
+            return new Partition(list, size);
         }
     }
     public static <E> List<E> as(Iterator<E> iterator) {
@@ -349,6 +348,32 @@ public class Lists {
         }
         return list;
     }
+    public static <E> List<E> as(Iterable<E> iterable) {
+        List<E> c = new ArrayList<>();
+        for (E e : iterable) {
+            c.add(e);
+        }
+        return c;
+    }
+
+    @SafeVarargs
+    public static <E> List<E> as(E... iterable) {
+        List<E> c = new ArrayList<>();
+        java.util.Collections.addAll(c, iterable);
+        return c;
+    }
+
+    public static <T> T firstMatch(List<T> collection, Predicate<T> matcher) {
+        if (collection == null || collection.isEmpty()) {
+            return null;
+        }
+        for (T next : collection) {
+            if (matcher.test(next)) {
+                return next;
+            }
+        }
+        return null;
+    }
 
     public static <T> boolean anyMatch(List<T> collection, Predicate<T> predicate) {
         if (collection == null || collection.isEmpty()) {
@@ -363,6 +388,17 @@ public class Lists {
         }
         return collection.stream().allMatch(predicate);
     }
+
+    /**
+     *
+     * @param collection
+     * @return
+     * @param <T>
+     */
+    public static <T> T firstNonNull(List<T> collection) {
+        return firstMatch(collection, Objects::nonNull);
+    }
+
 
     private static class Partition<T> extends AbstractList<List<T>> {
         private final List<T> list;

@@ -40,7 +40,12 @@ import java.util.Map;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: 动态Bean定义注册器实现类
+ *   该类实现了ImportBeanDefinitionRegistrar接口，用于在Spring容器启动时动态注册Bean定义。
+ *  同时实现EnvironmentAware接口，以便获取Spring环境配置信息
+ *  主要功能：
+ *  1. 通过ImportBeanDefinitionRegistrar接口的registerBeanDefinitions方法动态注册Bean
+ *  2. 通过EnvironmentAware接口的setEnvironment方法获取运行环境配置
  * @since 1.1.8
  */
 public class DynamicBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar, EnvironmentAware {

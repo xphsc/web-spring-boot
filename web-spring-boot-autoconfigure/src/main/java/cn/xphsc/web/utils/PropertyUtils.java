@@ -18,7 +18,8 @@ package cn.xphsc.web.utils;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: 属性工具类
+ * 提供属性相关的通用操作方法
  * @since 1.0.0
  */
 public class PropertyUtils {

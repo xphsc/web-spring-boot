@@ -20,7 +20,9 @@ import cn.xphsc.web.proxy.annotation.DynamicProxy;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: 动态代理工厂接口
+ *  该接口定义了创建动态代理对象的标准方法，用于在运行时动态生成代理实例
+ *   动态代理可以在不修改目标对象的情况下，为其添加额外的功能或控制
  * @since 1.1.8
  */
 public interface DynamicProxyFactory {

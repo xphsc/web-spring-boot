@@ -16,7 +16,7 @@ import static cn.xphsc.web.common.WebBeanTemplate.TRUE;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: DynamicProxyBean AutoConfiguration
  * @since 1.1.8
  */
 @Configuration

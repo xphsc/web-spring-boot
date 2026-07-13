@@ -28,7 +28,10 @@ import java.util.Map;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: 状态机提供者类，实现了状态机接口
+ *  @param <S> 状态类型
+ *  @param <E> 事件类型
+ *  @param <C> 上下文类型
  * @since 2.0.1
  */
 public class StateMachineProvider<S, E, C> implements StateMachine<S, E, C> {

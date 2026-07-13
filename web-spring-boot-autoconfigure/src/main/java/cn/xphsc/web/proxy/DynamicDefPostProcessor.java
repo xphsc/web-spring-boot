@@ -36,7 +36,9 @@ import java.util.List;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: DynamicDefPostProcessor类用于动态定义后处理，继承自BeanDefinitionRegistryPostProcessorAdapter
+ *  并实现EnvironmentAware和BeanFactoryAware接口，提供对Spring环境和Bean工厂的感知能力。
+ *  该类主要负责在Spring容器启动过程中动态注册和修改Bean定义，允许根据环境配置和运行时条件
  * @since 1.1.8
  */
 public class DynamicDefPostProcessor extends BeanDefinitionRegistryPostProcessorAdapter implements EnvironmentAware, BeanFactoryAware {

@@ -11,7 +11,7 @@ import static cn.xphsc.web.common.WebBeanTemplate.CESTOMEXCRPTION_PREFIX_ORDER;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: Exception Handler Properties
  * @since 1.0.0
  */
 @ConfigurationProperties(prefix = CESTOMEXCRPTION_PREFIX)

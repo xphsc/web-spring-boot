@@ -29,7 +29,7 @@ import java.lang.annotation.Annotation;
 /**
  * {@link AbstractPointcutAdvisor}
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: DictTransMap Pointcut Advisor
  * @since 1.0.0
  */
 public class DictTransMapPointcutAdvisor extends AbstractPointcutAdvisor implements ApplicationContextAware {

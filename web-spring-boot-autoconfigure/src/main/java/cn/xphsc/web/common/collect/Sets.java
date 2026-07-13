@@ -22,14 +22,13 @@ import cn.xphsc.web.common.collect.concurrent.ConcurrentHashSet;
 import cn.xphsc.web.common.validator.Validator;
 import cn.xphsc.web.utils.ArrayUtils;
 import cn.xphsc.web.utils.RandomUtils;
-
 import java.util.*;
 import java.util.function.Function;
 
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: Sets
  * @since 1.0.0
  */
 public class Sets {
@@ -44,7 +43,6 @@ public class Sets {
     public static <T> HashSet<T> newHashSet(boolean isSorted, Collection<T> collection) {
         return (HashSet)(isSorted?new LinkedHashSet():new HashSet(collection));
     }
-
     @SafeVarargs
     public static <T> HashSet<T> newHashSet(T... ts) {
         HashSet set = new HashSet(Math.max((int)((float)ts.length / 0.75F) + 1, 16));
@@ -114,8 +112,16 @@ public class Sets {
         return new ConcurrentHashSet<>();
     }
 
-
-
+    public static <E> Set<E> of(Collection<E> collection) {
+        return new HashSet<>(collection);
+    }
+    public static <E> Set<E> of(Iterable<E> iterable) {
+        Set<E> c = new HashSet<>();
+        for (E e : iterable) {
+            c.add(e);
+        }
+        return c;
+    }
     @SafeVarargs
     public static <E> Set<E> of(E... e) {
         return new HashSet<>(Arrays.asList(e));

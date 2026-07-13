@@ -31,7 +31,7 @@ import java.beans.PropertyDescriptor;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: DynamicBeanPostProcessor类实现了InstantiationAwareBeanPostProcessor和BeanFactoryAware接口
  * @since 1.1.8
  */
 public  class DynamicBeanPostProcessor   implements InstantiationAwareBeanPostProcessor, BeanFactoryAware {

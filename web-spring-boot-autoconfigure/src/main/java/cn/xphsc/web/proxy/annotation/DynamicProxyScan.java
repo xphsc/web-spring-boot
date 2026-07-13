@@ -25,7 +25,10 @@ import java.lang.annotation.*;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: 动态代理扫描注解，用于启用动态Bean定义注册功能
+ *   <p>该注解通过导入DynamicBeanDefinitionRegistrar来实现动态Bean的注册，
+ *  允许在运行时动态创建和注册Bean定义到Spring容器中。</p>
+ *  @Import 注解用于导入DynamicBeanDefinitionRegistra
  * @since 1.1.8
  */
 @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})

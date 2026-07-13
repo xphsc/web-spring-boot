@@ -28,7 +28,8 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: TreeNodeMethod类用于处理树节点相关的方法操作
+ *  该类提供了对树节点进行各种操作的工具方法
  * @since 1.0.0
  */
 public class TreeNodeMethod {

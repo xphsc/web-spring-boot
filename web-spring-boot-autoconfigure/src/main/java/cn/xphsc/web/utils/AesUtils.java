@@ -22,10 +22,13 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.spec.SecretKeySpec;
 import java.math.BigInteger;
 
+
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: AES加密工具类
+ *  提供AES加密和解密相关的通用工具方法
+ * 包含密钥生成、数据加密、数据解密等核心功能
  * @since 1.0.0
  */
 public class AesUtils {

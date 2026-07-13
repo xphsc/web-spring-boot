@@ -32,7 +32,8 @@ import java.lang.reflect.Proxy;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description:  默认动态代理工厂实现类
+ * 该类实现了DynamicProxyFactory接口和BeanFactoryAware接口
  * @since 1.1.8
  */
 public class DefaultDynamicProxyFactory implements DynamicProxyFactory, BeanFactoryAware {

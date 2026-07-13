@@ -24,7 +24,9 @@ import java.net.UnknownHostException;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: IP工具类，继承自IPs类
+ * 该类提供了一系列处理IP地址相关的工具方法，
+ * 包括IP地址验证、转换、解析等功能。
  * @since 1.0.0
  */
 public class IpUtils extends IPs {

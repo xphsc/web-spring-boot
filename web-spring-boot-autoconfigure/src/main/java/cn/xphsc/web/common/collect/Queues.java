@@ -24,7 +24,8 @@ import java.util.function.Function;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: Queues类提供了队列相关的操作方法和功能实现。
+ *  该类包含了队列的基本操作，如入队、出队、查看队首元素等。
  * @since 1.0.0
  */
 public class Queues {

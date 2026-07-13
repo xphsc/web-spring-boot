@@ -23,7 +23,7 @@ import java.util.Map;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: SerializationUtils 类提供了一系列用于对象序列化和反序列化的工具方法
  * @since 1.0.0
  */
 public class SerializationUtils {
@@ -64,6 +64,13 @@ public class SerializationUtils {
 
     public static <T extends Serializable> T roundtrip(T msg) {
         return (T) deserialize(serialize(msg));
+    }
+
+    public static <T> T clone(T obj) {
+        if (!(obj instanceof Serializable)) {
+            return null;
+        }
+        return (T) deserialize(serialize(obj));
     }
 
     public static void serialize(Serializable obj, OutputStream outputStream) {
@@ -126,7 +133,19 @@ public class SerializationUtils {
             return (T) var3;
         }
     }
-
+    public static byte[] serialize( Object object) {
+        if (object == null) {
+            return null;
+        }
+        ByteArrayOutputStream bos = new ByteArrayOutputStream(1024);
+        try (ObjectOutputStream oos = new ObjectOutputStream(bos)) {
+            oos.writeObject(object);
+            oos.flush();
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return bos.toByteArray();
+    }
     public static <T> T deserialize(byte[] objectData) {
         if(objectData == null) {
             throw new IllegalArgumentException("The byte[] must not be null");

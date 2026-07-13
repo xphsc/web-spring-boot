@@ -23,7 +23,10 @@ import org.jsoup.safety.Safelist;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: XSS工具类
+ *  该类提供了一系列用于防止跨站脚本攻击(XSS)的工具方法，
+ *  主要包括HTML转义、URL编码、JavaScript转义等功能，
+ *  用于清理和过滤用户输入数据，防止恶意脚本注入
  * @since 1.0.0
  */
 public class XssUtils {

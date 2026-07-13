@@ -30,7 +30,10 @@ import java.util.function.Consumer;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: TransitionBuilderImpl 类实现了 TransitionBuilder 接口，用于构建状态转换器
+ * @param <S> 状态类型
+ * @param <E> 事件类型
+ * @param <C> 上下文类型
  * @since 2.0.1
  */
 public class TransitionBuilderImpl<S, E, C> implements TransitionBuilder<S, E, C> {

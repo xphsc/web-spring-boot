@@ -27,7 +27,7 @@ import javax.servlet.http.HttpSession;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: ContextHolder Util
  * @since 1.0.0
  */
 public class ContextHolderUtil {

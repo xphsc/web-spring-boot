@@ -18,24 +18,18 @@ package cn.xphsc.web.boot.response.autoconfigure;
 
 
 import cn.xphsc.web.boot.response.interceptor.ResponseResultHandler;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.core.Ordered;
-
-import static cn.xphsc.web.common.WebBeanTemplate.*;
 
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: Response AutoConfiguration
  * @since 1.0.0
  */
 
 @Configuration
-@ConditionalOnProperty(prefix =RESPONSE_PREFIX, name = ENABLED,havingValue = TRUE)
-@Import(ResponseResultHandler.class)
+@Import(value={ResponseResultHandler.class,ResponseResultProperties.class})
 public class ResponseAutoConfiguration {
 
 }

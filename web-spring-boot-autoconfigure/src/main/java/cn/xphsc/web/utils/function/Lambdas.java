@@ -36,7 +36,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Lambdas {
     private Lambdas() {}
 
-    // 缓存 SerializedLambda 以提升性能
+    // 缓存 SerializedLambda
     private static final Map<Class<?>, WeakReference<SerializedLambda>> FUNC_CACHE = new ConcurrentHashMap<>(1024);
 
     /**

@@ -20,11 +20,11 @@ package cn.xphsc.web.utils;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.charset.UnsupportedCharsetException;
-
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: Charsets类提供字符集相关的常量和工具方法。
+ * 该类通常用于处理不同字符编码格式的转换和操作。
  * @since 1.0.0
  */
 public class Charsets {

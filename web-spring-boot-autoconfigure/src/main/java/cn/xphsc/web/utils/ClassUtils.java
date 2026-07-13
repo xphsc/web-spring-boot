@@ -37,7 +37,9 @@ import static cn.xphsc.web.common.lang.constant.Letters.SLASH;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: ClassUtils 类提供了一系列用于处理Java类相关的工具方法。
+ * 该类包含了类加载、类实例化、类信息获取等常用功能的静态方法。
+ * 所有方法均为静态方法，可以通过类名直接调用。
  * @since 1.0.0
  */
 public class ClassUtils {

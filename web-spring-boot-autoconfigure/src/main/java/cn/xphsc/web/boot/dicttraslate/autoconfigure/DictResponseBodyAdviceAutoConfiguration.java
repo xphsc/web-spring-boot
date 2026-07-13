@@ -28,7 +28,7 @@ import static cn.xphsc.web.common.WebBeanTemplate.*;
 /**
  * {@link}
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: DictResponseBody Advice AutoConfiguration
  * @since 1.0.0
  */
 @Configuration

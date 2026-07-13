@@ -28,7 +28,8 @@ import org.springframework.core.type.filter.AnnotationTypeFilter;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: ClassPathDynamicBeanDefinitionScanner 类继承自 ClassPathBeanDefinitionScanner，
+ * 用于在类路径下动态扫描并注册 Bean 定义
  * @since 1.1.8
  */
 public class ClassPathDynamicBeanDefinitionScanner extends ClassPathBeanDefinitionScanner {

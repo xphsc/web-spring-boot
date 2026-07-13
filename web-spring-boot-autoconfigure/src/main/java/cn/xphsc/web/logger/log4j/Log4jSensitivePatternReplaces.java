@@ -27,7 +27,7 @@ import org.apache.logging.log4j.status.StatusLogger;
  * @description:  Custom plugin (implementing log desensitization based on keyword matching)
  * @since 2.0.1
  */
-@Plugin(name = "log4jSensitivePatternlaces", category = "Core", printObject = true)
+@Plugin(name = "log4jSensitivePatternReplaces", category = "Core", printObject = true)
 public class Log4jSensitivePatternReplaces {
     private static final Logger LOGGER = StatusLogger.getLogger();
 

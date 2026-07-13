@@ -31,7 +31,8 @@ import static cn.xphsc.web.common.lang.constant.Constants.SPACE;
 /**
  * {@link Exception}
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: Exceptions类用于处理和管理应用程序中的异常情况
+ *  该类提供了各种异常处理的工具方法和常量定义
  * @since 1.1.6
  */
 public class Exceptions {

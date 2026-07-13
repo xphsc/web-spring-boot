@@ -18,7 +18,8 @@ package cn.xphsc.web.statemachine.provider;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: Transitions类用于处理状态转换相关的功能
+ * 该类提供了管理不同状态之间转换的机制
  * @since 2.0.1
  */
 public class Transitions {

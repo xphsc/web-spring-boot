@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: EnableDicTrans
  * @since 1.0.0
  */
 @Retention(RetentionPolicy.RUNTIME)

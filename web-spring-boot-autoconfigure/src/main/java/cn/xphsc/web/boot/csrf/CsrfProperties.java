@@ -23,7 +23,7 @@ import static cn.xphsc.web.common.WebBeanTemplate.CSRF_PREFIX_ORDER;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: Csrf Properties
  * @since 1.0.0
  */
 @ConfigurationProperties(prefix = CSRF_PREFIX )

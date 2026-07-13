@@ -21,7 +21,7 @@ import cn.xphsc.web.sensitive.utils.SensitiveUtils;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: AbstractSensitive Handler
  * @since 1.0.0
  */
 public class AbstractSensitiveHandler implements SensitiveHandler {

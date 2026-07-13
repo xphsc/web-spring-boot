@@ -225,6 +225,12 @@ public class OperationLogBuilder {
                                                 value= mapField.get(extendFiledEntity.getFieldDescription());
                                             }
                                         }
+                                        Map LogMapField=  logBuilder.logTransMappingAttribute(logFieldObject);
+                                        if(Collects.isNotEmpty(LogMapField)){
+                                            if(mapField.get(extendFiledEntity.getFieldDescription())!=null){
+                                                value= mapField.get(extendFiledEntity.getFieldDescription());
+                                            }
+                                        }
                                     }
                                 }
                             }

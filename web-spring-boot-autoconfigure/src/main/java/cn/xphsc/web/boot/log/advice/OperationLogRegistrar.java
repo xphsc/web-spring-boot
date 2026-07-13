@@ -31,7 +31,7 @@ import org.springframework.core.type.AnnotationMetadata;
 /**
  * {@link ImportBeanDefinitionRegistrar}
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: OperationLog Registrar
  * @since 1.0.0
  */
 public class OperationLogRegistrar implements ImportBeanDefinitionRegistrar  {

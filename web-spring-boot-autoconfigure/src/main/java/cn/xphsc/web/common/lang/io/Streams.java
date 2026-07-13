@@ -239,7 +239,10 @@ public class Streams {
             return new String(input, charset);
         }
     }
-
+    public static String toString(InputStream input, Charset charset) throws IOException {
+        InputStreamReader in = new InputStreamReader(input, charset);
+        return toString(in);
+    }
     // -------------------- convert stream --------------------
 
     public static InputStream toInputStream(byte[] bs) {

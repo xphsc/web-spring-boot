@@ -15,7 +15,14 @@
  */
 package cn.xphsc.web.strategy.annotation;
 
-
+/**
+ * {@link }
+ * @author <a href="xiongpeih@163.com">huipei.x</a>
+ * @description: Strategy注解接口
+ * 该注解用于标识策略模式中的具体策略实现类，
+ *  通常用于标记不同的业务处理策略，配合策略工厂使用
+ * @since 2.0.1
+ */
 public @interface Strategy {
     String value() default "DEFAULT";
 }

@@ -16,21 +16,24 @@
 package cn.xphsc.web.utils;
 
 import cn.xphsc.web.common.lang.hash.Hashes;
-
+import cn.xphsc.web.common.lang.object.Objs;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: ObjectUtils 类提供了一系列用于对象操作的工具方法
+ * 该类继承自 Objs 类，扩展了更多实用的对象处理功能。
  * @since 1.0.0
  */
-public class ObjectUtils {
+public class ObjectUtils extends Objs {
 
 
     public static final String EMPTY_STRING = "";
@@ -43,6 +46,14 @@ public class ObjectUtils {
 
     public static boolean isNotEmpty(Object object){
      return Optional.ofNullable(object).isPresent();
+    }
+
+    public static boolean anyNull(Object... values) {
+        return !allNotNull(values);
+    }
+
+    public static boolean allNotNull(Object... values) {
+        return values != null && Stream.of(values).noneMatch(Objects::isNull);
     }
 
     /**
@@ -103,7 +114,7 @@ public class ObjectUtils {
         }
     }
 
-    public static <T> Object clone(T obj) {
+    public static <T> T clone(T obj) {
         if(!(obj instanceof Cloneable)) {
             return null;
         } else {
@@ -133,7 +144,7 @@ public class ObjectUtils {
                 }
             }
 
-            return result;
+            return (T) result;
         }
     }
 

@@ -17,12 +17,15 @@ package cn.xphsc.web.utils;
 
 
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.util.Objects;
 
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: NumberUtils类提供了一系列用于数字处理的工具方法
+ *  该类包含各种数学运算、数字转换和数字验证等实用功能
  * @since 1.1.6
  */
 public class NumberUtils {
@@ -1083,5 +1086,11 @@ public class NumberUtils {
         n |= n >>> 16;
         return n + 1;
     }
-
+    public static boolean equals(final Number number1, final Number number2) {
+        if (number1 instanceof BigDecimal && number2 instanceof BigDecimal) {
+            // BigDecimal使用compareTo方式判断，因为使用equals方法也判断小数位数，如2.0和2.00就不相等
+            return equals((BigDecimal) number1, (BigDecimal) number2);
+        }
+        return Objects.equals(number1, number2);
+    }
 }

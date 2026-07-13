@@ -25,7 +25,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: ApplicationContext AutoConfiguration
  * @since 1.0.0
  */
 @Configuration

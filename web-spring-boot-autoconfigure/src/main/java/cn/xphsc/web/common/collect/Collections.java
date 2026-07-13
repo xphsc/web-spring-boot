@@ -23,7 +23,8 @@ import java.util.stream.Stream;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: Collections类提供了操作集合的静态工具方法
+ *  包含排序、查找、同步包装等常用集合操作
  * @since 1.1.6
  */
 public class Collections {

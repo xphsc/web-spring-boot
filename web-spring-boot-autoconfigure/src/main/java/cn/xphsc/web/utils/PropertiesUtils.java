@@ -29,7 +29,8 @@ import java.util.Map;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: PropertiesUtils类用于处理属性文件的工具类
+ * 提供了读取、写入和操作属性文件的便捷方法
  * @since 1.0.0
  */
 public class PropertiesUtils {

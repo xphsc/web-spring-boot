@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: Functions
  * @since 1.1.4
  */
 public class Functions {

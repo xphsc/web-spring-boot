@@ -27,7 +27,8 @@ import static cn.xphsc.web.common.lang.constant.Constants.*;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: Systems类提供系统相关的工具方法和配置管理功能
+ *  该类封装了常用的系统操作，包括环
  * @since 1.1.6
  */
 public class Systems {

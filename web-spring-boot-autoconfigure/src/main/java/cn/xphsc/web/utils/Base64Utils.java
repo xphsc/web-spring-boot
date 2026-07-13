@@ -23,7 +23,8 @@ import java.nio.charset.Charset;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: Base64工具类
+ * 提供Base64编码和解码的工具方法
  * @since 1.0.0
  */
 public class Base64Utils {

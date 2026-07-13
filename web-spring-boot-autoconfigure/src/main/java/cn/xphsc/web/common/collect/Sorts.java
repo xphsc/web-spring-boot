@@ -22,19 +22,27 @@ import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
  * @description: 集合排序工具
  * * For reference, the example
  * Sorts.Builder.<T>of()....applyTo(list);
+ * Sorts.<T>of()....applyTo(list);
  * @since 2.0.3
  */
 public class Sorts {
     /**
      * 通用链式排序构建器。
-     * 使用方式：Sorts.Builder.of()....applyTo(list);
+     * 使用方式：Sorts.<T>of()....applyTo(list);
+     */
+    public static <T> Builder<T> of() {
+        return new Builder<>();
+    }
+
+    /**
+     * 通用链式排序构建器。
+     * 使用方式：Sorts.Builder.<T>of()....applyTo(list);
      */
     public static class Builder<T> {
         private final List<Comparator<T>> comparators = new ArrayList<>();

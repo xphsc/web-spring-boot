@@ -24,7 +24,12 @@ import org.springframework.context.ApplicationContextAware;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description:  Spring上下文持有者类，实现ApplicationContextAware接口
+ * 用于获取Spring容器中的Bean实例，提供静态方法访问Spring上下文
+ *  该类的主要作用是：
+ *  1. 实现ApplicationContextAware接口，自动注入ApplicationContext
+ * 2. 提供静态方法获取Spring容器中的Bean
+ * 3. 提供获取ApplicationContext的静态方法
  * @since 1.0.0
  */
 public class SpringContextHolder implements ApplicationContextAware {

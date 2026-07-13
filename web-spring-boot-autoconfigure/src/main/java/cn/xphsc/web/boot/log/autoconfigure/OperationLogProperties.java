@@ -22,7 +22,7 @@ import static cn.xphsc.web.common.WebBeanTemplate.LOG_PREFIX;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: OperationLog Properties
  * @date:
  * @since 1.0.0
  */

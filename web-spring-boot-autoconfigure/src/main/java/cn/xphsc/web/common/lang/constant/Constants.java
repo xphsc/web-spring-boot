@@ -407,5 +407,5 @@ public abstract class Constants {
     public static final String EMPTY_ARRAY = "[]";
     public static final String CLASSPATH_PREFIX = "classpath:";
     public static final char PACKAGE_SEPARATOR = '.';
-
+    public static final Object[] OBJECT_ARR_EMPTY = new Object[0];;
 }

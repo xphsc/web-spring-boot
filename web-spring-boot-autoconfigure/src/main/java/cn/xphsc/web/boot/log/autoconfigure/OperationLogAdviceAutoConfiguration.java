@@ -30,7 +30,7 @@ import static cn.xphsc.web.common.WebBeanTemplate.*;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: OperationLog Advice AutoConfiguration
  * @date:
  * @since 1.0.0
  */

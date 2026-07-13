@@ -30,7 +30,8 @@ import java.util.*;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: RestBuilderTemplate 类用于构建REST请求的模板
+ * 该类提供了创建和配置REST API请求的便捷方法
  * @since 1.0.0
  */
 public class RestBuilderTemplate {

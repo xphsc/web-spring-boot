@@ -19,7 +19,7 @@ package cn.xphsc.web.sensitive;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: Sensitive Type
  * @since 1.0.0
  */
 public enum SensitiveType {

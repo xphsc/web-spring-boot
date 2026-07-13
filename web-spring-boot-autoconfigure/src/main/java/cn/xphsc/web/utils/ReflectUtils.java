@@ -15,24 +15,32 @@
  */
 package cn.xphsc.web.utils;
 
+import cn.xphsc.web.common.collect.Iterables;
+import cn.xphsc.web.common.collect.Maps;
+import cn.xphsc.web.common.lang.function.MethodReferenceReflection;
+import cn.xphsc.web.common.lang.reflect.Types;
+
 import java.beans.PropertyDescriptor;
 import java.io.File;
-import java.lang.reflect.Array;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
+import java.lang.reflect.*;
 import java.util.*;
+import java.util.concurrent.*;
+
 
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: 反射工具类
+ * 提供常用的反射操作方法，用于在运行时动态获取类信息、调用方法、访问字段等操
  * @since 1.1.6
  */
 public class ReflectUtils {
 
 
     private static final Map<Class<?>, Class<?>> PRIMITIVE_AND_WRAP = new HashMap<>();
+    private static final Map<Class<?>, Constructor<?>[]> CONSTRUCTORS_CACHE = Maps.newConcurrentHashMap();
 
+    public static final String GET_CLASS = "getClass";
     static {
         PRIMITIVE_AND_WRAP.put(byte.class, Byte.class);
         PRIMITIVE_AND_WRAP.put(short.class, Short.class);
@@ -247,7 +255,34 @@ public class ReflectUtils {
                     type.getCanonicalName(), Arrays.toString(parameterTypes)), e);
         }
     }
+    public static <T> Constructor<T> getConstructors( Class<T> clazz, Class<?>... parameterTypes) {
+        final Constructor<?>[] constructors = getConstructor(clazz);
+        Class<?>[] pts;
+        for (Constructor<?> constructor : constructors) {
+            pts = constructor.getParameterTypes();
+            if (Iterables.isMatchAll(pts, parameterTypes, (c1, c2) -> c1 == c2)) {
+                setAccessible(constructor);
+                return (Constructor<T>) constructor;
+            }
+        }
+        for (Constructor<?> constructor : constructors) {
+            pts = constructor.getParameterTypes();
+            if (Iterables.isMatchAll(pts, parameterTypes, Class::isAssignableFrom)) {
+                setAccessible(constructor);
+                return (Constructor<T>) constructor;
+            }
+        }
+        return null;
+    }
 
+    @SuppressWarnings({"ConstantValue", "StatementWithEmptyBody"})
+    public static <T> Constructor<T>[] getConstructor(Class<T> clazz) {
+        Constructor<T>[] rs;
+        // 防止因对象回收后导致WeakMap结果丢失，尝试多次获取
+        while ((rs = (Constructor<T>[]) CONSTRUCTORS_CACHE.computeIfAbsent(clazz, (c) -> getConstructorsDirectly(clazz))) == null) {
+        }
+        return rs;
+    }
     /**
      * 根据参数类型和方法名获取方法
      */
@@ -265,5 +300,135 @@ public class ReflectUtils {
             throw new RuntimeException(String.format("Cannot find method \"%s\" of \"%s\" with parameter types %s.",
                     name, type.getCanonicalName(), Arrays.toString(parameterTypes)), e);
         }
+    }
+    public static boolean isGetClassMethod(Method method) {
+        return method != null && GET_CLASS.equals(method.getName()) && method.getParameterCount() == 0;
+    }
+    public static <T> T newInstanceIfPossible(Class<T> type) {
+        if (Types.isPrimitiveWrapper(type)) {
+            type = Types.getPrimitiveClassByWrapper(type);
+        }
+        if (type.isPrimitive()) {
+            return (T) Types.getDefaultValue(type);
+        }
+
+        if (Modifier.isAbstract(type.getModifiers())) {
+            // 某些特殊接口的实例化按照默认实现进行
+            if (type.isAssignableFrom(AbstractMap.class)) {
+                type = (Class<T>) HashMap.class;
+            } else if (type.isAssignableFrom(ConcurrentNavigableMap.class)) {
+                type = (Class<T>) ConcurrentSkipListMap.class;
+            } else if (type.isAssignableFrom(ConcurrentMap.class)) {
+                type = (Class<T>) ConcurrentHashMap.class;
+            } else if (type.isAssignableFrom(NavigableMap.class)) {
+                type = (Class<T>) TreeMap.class;
+            } else if (type.isAssignableFrom(AbstractCollection.class)) {
+                // 抽象集合默认使用ArrayList
+                type = (Class<T>) ArrayList.class;
+            } else if (type.isAssignableFrom(Set.class)) {
+                type = (Class<T>) HashSet.class;
+            } else if (type.isAssignableFrom(HashSet.class)) {
+                type = (Class<T>) HashSet.class;
+            } else if (type.isAssignableFrom(LinkedHashSet.class)) {
+                type = (Class<T>) LinkedHashSet.class;
+            } else if (type.isAssignableFrom(BlockingDeque.class)) {
+                type = (Class<T>) LinkedBlockingDeque.class;
+            } else if (type.isAssignableFrom(Deque.class)) {
+                type = (Class<T>) ArrayDeque.class;
+            } else if (type.isAssignableFrom(List.class)) {
+                type = (Class<T>) ArrayList.class;
+            } else if (type.isAssignableFrom(ArrayList.class)) {
+                type = (Class<T>) ArrayList.class;
+            } else if (type.isAssignableFrom(LinkedList.class)) {
+                type = (Class<T>) LinkedList.class;
+            } else {
+                // 不可实例化
+                return null;
+            }
+        }
+
+        // 枚举
+        if (type.isEnum()) {
+            return type.getEnumConstants()[0];
+        }
+
+        // 数组
+        if (type.isArray()) {
+            return (T) Array.newInstance(type.getComponentType(), 0);
+        }
+
+        try {
+            return newInstance(type);
+        } catch (Exception ignore) {
+        }
+
+        final Constructor<T>[] constructors = getConstructor(type);
+        Class<?>[] parameterTypes;
+        for (Constructor<T> constructor : constructors) {
+            parameterTypes = constructor.getParameterTypes();
+            if (0 == parameterTypes.length) {
+                continue;
+            }
+            setAccessible(constructor);
+            try {
+                return constructor.newInstance(Types.getDefaultValues(parameterTypes));
+            } catch (Exception ignore) {
+            }
+        }
+        return null;
+    }
+
+    public static <T> T newInstance(String className) throws ReflectiveOperationException {
+        return (T) newInstance(Class.forName(className));
+    }
+
+    public static <T> T newInstance(Class<T> clazz, Class[] paramTypes, Object[] params) throws ReflectiveOperationException {
+        Constructor<T> constructor = getConstructors(clazz, paramTypes);
+        if (constructor != null) {
+            return constructor.newInstance(params);
+        }
+        throw new NoSuchMethodException();
+    }
+
+    public static <T> T newInstance(Class<T> clazz, Object... params) throws ReflectiveOperationException {
+        if (params.length == 0) {
+            Constructor<T> constructor = getConstructors(clazz,null);
+            if (constructor != null) {
+                return constructor.newInstance();
+            }
+            constructor = getConstructors(clazz, Object[].class);
+            if (constructor != null) {
+                return constructor.newInstance((Object[]) params);
+            }
+        } else {
+            Class<?>[] paramTypes = new Class[params.length];
+            for (int i = 0; i < params.length; i++) {
+                paramTypes[i] = params[i] == null ? Object.class : params[i].getClass();
+            }
+            Constructor<T> constructor = getConstructors(clazz, paramTypes);
+            if (constructor != null) {
+                return constructor.newInstance(params);
+            }
+        }
+        throw new NoSuchMethodException();
+    }
+    public static void setAccessible(AccessibleObject accessibleObject) {
+        if ((accessibleObject != null) && (!accessibleObject.isAccessible())) {
+            accessibleObject.setAccessible(true);
+        }
+    }
+
+    public static void setAccessible(AccessibleObject... accessibleObjects) {
+        for (AccessibleObject accessibleObject : accessibleObjects) {
+            if ((accessibleObject != null) && (!accessibleObject.isAccessible())) {
+                accessibleObject.setAccessible(true);
+            }
+        }
+    }
+    public static String getLambdaMethodName(MethodReferenceReflection f) {
+        return f.serialized().getImplMethodName();
+    }
+    public static <T> Constructor<T>[] getConstructorsDirectly( Class<T> clazz) {
+        return (Constructor<T>[]) clazz.getDeclaredConstructors();
     }
 }

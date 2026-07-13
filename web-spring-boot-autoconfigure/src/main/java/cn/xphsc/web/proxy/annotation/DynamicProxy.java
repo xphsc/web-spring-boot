@@ -27,7 +27,9 @@ import java.lang.annotation.*;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: 动态代理注解接口
+ *  该注解用于标记需要进行动态代理处理的类或方法
+ *  通过使用此注解，可以在运行时创建代理对象来拦截和处理方法调用
  * @since 1.1.8
  */
 @Target({ElementType.ANNOTATION_TYPE, ElementType.TYPE})

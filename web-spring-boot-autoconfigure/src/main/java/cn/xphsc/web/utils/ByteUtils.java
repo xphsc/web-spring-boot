@@ -19,7 +19,8 @@ import java.nio.charset.Charset;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: ByteUtils类提供了一系列用于处理字节数组的工具方法
+ * 包括字节转换、数组操作、编码解码等常用功能
  * @since 1.0.0
  */
 public class ByteUtils {

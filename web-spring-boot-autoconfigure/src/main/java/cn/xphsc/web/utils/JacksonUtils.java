@@ -32,7 +32,9 @@ import java.lang.reflect.Type;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: Jackson工具类
+ * 提供基于Jackson库的JSON序列化和反序列化操作的封装方法
+ * 包含对象与JSON字符串之间的转换、JSON节点操作等常用功能
  * @since 1.0.0
  */
 public class JacksonUtils {

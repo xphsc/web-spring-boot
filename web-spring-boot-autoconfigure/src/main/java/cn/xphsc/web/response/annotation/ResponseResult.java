@@ -23,6 +23,7 @@ import java.lang.annotation.*;
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
  * @description: conversion results
+ *  <p>注：此配置优先于 {@link cn.xphsc.web.boot.response.autoconfigure.ResponseResultProperties#getDefaultOkMethod()} 全局配置</p>
  * @since 1.0.0
  */
 @Target({ElementType.TYPE, ElementType.METHOD})

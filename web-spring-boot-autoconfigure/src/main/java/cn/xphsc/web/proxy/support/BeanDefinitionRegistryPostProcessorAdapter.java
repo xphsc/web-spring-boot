@@ -23,7 +23,8 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProce
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: BeanDefinitionRegistryPostProcessorAdapter类实现了BeanDefinitionRegistryPostProcessor接口，
+ *  用于在Spring容器启动时对Bean定义注册表进行后处理操
  * @since 1.1.8
  */
 public class BeanDefinitionRegistryPostProcessorAdapter implements BeanDefinitionRegistryPostProcessor {

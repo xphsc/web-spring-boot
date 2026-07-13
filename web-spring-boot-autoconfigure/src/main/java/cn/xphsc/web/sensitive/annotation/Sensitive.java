@@ -24,7 +24,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * {@link SensitiveSerialize}
+ * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
  * @description: Desensitization of sensitive data
  * For reference, the example
@@ -69,4 +69,5 @@ public @interface Sensitive {
 	 * 自定义处理标识
 	 */
 	String tag() default "custom";
+
 }

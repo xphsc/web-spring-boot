@@ -11,7 +11,9 @@ import java.util.Map;
 /**
  * {@link SysOperationLog}
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: 系统操作日志构建器类
+ *  该类用于构建系统操作日志对象，提供了一系列方法来设置日志的各种属性，
+ *  包括操作类型、操作人、操作时间、操作内容等信息，便于统一管理和记录
  * @since 1.0.0
  */
 public class SysOperationLogBuilder {

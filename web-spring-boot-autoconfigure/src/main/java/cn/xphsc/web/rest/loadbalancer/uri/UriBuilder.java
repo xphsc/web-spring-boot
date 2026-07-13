@@ -33,7 +33,7 @@ import java.util.*;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: Uri Builder
  * @since 1.0.0
  */
 public class UriBuilder {

@@ -23,7 +23,7 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: RandomUtils类提供了一系列随机数生成的工具方法
  * @since 1.0.0
  */
 public class RandomUtils {

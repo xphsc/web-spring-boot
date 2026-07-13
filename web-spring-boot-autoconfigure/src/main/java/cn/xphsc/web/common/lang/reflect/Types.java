@@ -21,7 +21,7 @@ import cn.xphsc.web.common.exception.Exceptions;
 import cn.xphsc.web.utils.ArrayUtils;
 import cn.xphsc.web.utils.StringUtils;
 import java.lang.reflect.*;
-import java.util.Map;
+import java.util.*;
 
 /**
  * {@link }
@@ -31,12 +31,13 @@ import java.util.Map;
  */
 // @SuppressWarnings("ALL")
 public class Types {
-
+    private static final Map<Class, Class> wrapperPrimitiveTypes = new HashMap<>();
     private Types() {
     }
 
     /**
      * 是否未知类型
+     *
      * @param type type
      * @return 是否未知类型
      */
@@ -46,6 +47,7 @@ public class Types {
 
     /**
      * 获取 type 对应的原始 class
+     *
      * @param type type
      * @return 原始class
      */
@@ -164,6 +166,52 @@ public class Types {
             return types[0];
         }
         return null;
+    }
+    public static boolean isPrimitiveWrapper(Class<?> clazz) {
+        if (clazz == null) {
+            return false;
+        }
+        return wrapperPrimitiveTypes.containsKey(clazz);
+    }
+
+    public static Class getPrimitiveClassByWrapper(Class type) {
+        return type.isPrimitive() ? type : wrapperPrimitiveTypes.get(type);
+    }
+
+    public static Object getDefaultValue(Class<?> clazz) {
+        if (long.class == clazz) {
+            return 0L;
+        } else if (int.class == clazz) {
+            return 0;
+        } else if (short.class == clazz) {
+            return (short) 0;
+        } else if (char.class == clazz) {
+            return (char) 0;
+        } else if (byte.class == clazz) {
+            return (byte) 0;
+        } else if (double.class == clazz) {
+            return 0D;
+        } else if (float.class == clazz) {
+            return 0f;
+        } else if (boolean.class == clazz) {
+            return false;
+        } else if (clazz == Optional.class) {
+            return Optional.empty();
+        } else if (clazz == OptionalInt.class) {
+            return OptionalInt.empty();
+        } else if (clazz == OptionalLong.class) {
+            return OptionalLong.empty();
+        } else if (clazz == OptionalDouble.class) {
+            return OptionalDouble.empty();
+        }
+        return null;
+    }
+    public static Object[] getDefaultValues(Class<?>... classes) {
+        final Object[] values = new Object[classes.length];
+        for (int i = 0; i < classes.length; i++) {
+            values[i] = getDefaultValue(classes[i]);
+        }
+        return values;
     }
 
 }

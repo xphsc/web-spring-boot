@@ -19,6 +19,8 @@ import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.cglib.beans.BeanMap;
 import org.springframework.cglib.core.Converter;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -74,15 +76,18 @@ public class MapperClass {
                     k -> BeanCopier.create(origClass.getClass(),targetClass.getClass(), false));
             }
         copier.copy(origClass,targetClass,converter!=null?converter:null);
+        if(!hasTargetSetter(targetClass.getClass())){
+            copyFieldsWithoutSetter(origClass,targetClass);
+        }
         return (T) targetClass;
     }
 
 
-    public static MapperClass.Builder builder(Object origClass,Class<?> targetClass){
-        return  new MapperClass.Builder( origClass, targetClass);
+    public static Builder builder(Object origClass,Class<?> targetClass){
+        return  new Builder( origClass, targetClass);
     }
 
-    private MapperClass(MapperClass.Builder builder){
+    private MapperClass(Builder builder){
       this.converter=builder.converter;
         this.mapper=builder.mapper;
         this.targetClass= builder.targetClass;
@@ -147,6 +152,9 @@ public class MapperClass {
             Object instance= targetObject(targetClass);
             BeanCopier beanCopier=beanCopier(object,targetClass,false);
             beanCopier.copy(object,instance,null);
+            if(!hasTargetSetter(targetClass)){
+                copyFieldsWithoutSetter(object,targetClass);
+            }
             result.add((T) instance);
         }
         return result;
@@ -183,4 +191,80 @@ public class MapperClass {
     private static String genKey(Class<?> sourceClass, Class<?> targetClass) {
         return sourceClass.getName() + "->" + targetClass.getName();
     }
+
+    private static void copyFieldsWithoutSetter(Object source, Object target) {
+        Class<?> sourceClass = source.getClass();
+        Class<?> targetClass = target.getClass();
+        Set<String> targetSetterProps = new HashSet<>();
+        for (Method method : targetClass.getMethods()) {
+            if (isSetter(method)) {
+                String propName = method.getName().substring(3);
+                targetSetterProps.add(propName.toLowerCase());
+            }
+        }
+        for (Field sourceField : getAllFields(sourceClass)) {
+            sourceField.setAccessible(true);
+            String fieldName = sourceField.getName();
+            try {
+                Object value = sourceField.get(source);
+                if(value!=null){
+                    if (!targetSetterProps.contains(fieldName.toLowerCase())&&!fieldName.equals("serialVersionUID")) {
+                        try {
+                            Field targetField = getField(targetClass, fieldName);
+                            if (targetField != null) {
+                                targetField.setAccessible(true);
+                                targetField.set(target, value);
+                            }
+                        } catch (Exception ignored) {
+                            // 忽略异常，继续尝试拷贝其它字段
+                        }
+                    }
+                }
+
+            } catch (IllegalAccessException e) {
+
+            }
+        }
+    }
+
+    private static Field getField(Class<?> clazz, String fieldName) {
+        Class<?> current = clazz;
+        while (current != null && current != Object.class) {
+            try {
+                return current.getDeclaredField(fieldName);
+            } catch (NoSuchFieldException e) {
+                current = current.getSuperclass();
+            }
+        }
+        return null;
+    }
+    private static Field[] getAllFields(Class<?> clazz) {
+        Set<Field> fields = new HashSet<>();
+        Class<?> current = clazz;
+        while (current != null && current != Object.class) {
+            Field[] declared = current.getDeclaredFields();
+            for (Field f : declared) {
+                fields.add(f);
+            }
+            current = current.getSuperclass();
+        }
+        return fields.toArray(new Field[0]);
+    }
+
+    private static boolean isSetter(Method method) {
+        return method.getName().startsWith("set")
+                && method.getParameterCount() == 1
+                && method.getReturnType() == void.class;
+    }
+    private static boolean hasTargetSetter( Class<?> targetClass) {
+        Method method  = Arrays.stream(targetClass.getMethods()).filter(m->m.getName().startsWith("set")).findFirst().get();
+        if(hasSuperclass(targetClass)){
+            method  = Arrays.stream(targetClass.getSuperclass().getMethods()).filter(m->m.getName().startsWith("set")).findFirst().get();
+        }
+        return isSetter(method);
+    }
+    public static boolean hasSuperclass(Class<?> clazz) {
+        return clazz != null && clazz.getSuperclass() != null && !clazz.getSuperclass().equals(Object.class);
+    }
+
 }

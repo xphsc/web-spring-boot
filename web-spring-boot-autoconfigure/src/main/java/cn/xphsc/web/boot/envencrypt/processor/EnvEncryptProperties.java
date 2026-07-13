@@ -20,7 +20,7 @@ import static cn.xphsc.web.common.WebBeanTemplate.ENV_ENCRYPT_PREFIX;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: EnvEncrypt Properties
  * @since 1.1.0
  */
 @ConfigurationProperties(prefix = ENV_ENCRYPT_PREFIX )

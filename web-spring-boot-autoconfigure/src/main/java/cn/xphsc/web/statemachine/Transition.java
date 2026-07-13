@@ -18,7 +18,10 @@ package cn.xphsc.web.statemachine;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: 状态机转换接口，定义了状态转换的基本操作
+ *  @param <S> 状态类型
+ *  @param <E> 事件类型
+ *  @param <C> 上下文类型
  * @since 2.0.1
  */
 public interface Transition<S, E, C> {

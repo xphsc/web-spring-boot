@@ -22,7 +22,7 @@ import java.util.*;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description:  * Collects类继承自Collections类，用于提供额外的集合操作功能
  * @since 1.0.0
  */
 public class Collects extends Collections{

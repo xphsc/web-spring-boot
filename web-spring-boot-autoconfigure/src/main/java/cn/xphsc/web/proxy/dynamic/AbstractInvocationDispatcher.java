@@ -27,7 +27,7 @@ import java.util.function.Function;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description:  抽象调用分发器类，用于处理带有特定注解的方法调用分发
  * @since 1.1.8
  */
 public abstract class AbstractInvocationDispatcher<ANNOTATION_TYPE extends Annotation, ATTACHMENT> {

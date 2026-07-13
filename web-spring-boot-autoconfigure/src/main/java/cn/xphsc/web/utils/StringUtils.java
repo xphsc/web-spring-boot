@@ -27,7 +27,7 @@ import java.util.Locale;
 /**
  * {@link }
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: StringUtils类提供了字符串处理相关的工具方法
  * @since 1.0.0
  */
 public class StringUtils {
@@ -480,7 +480,7 @@ public class StringUtils {
             if (str1 == str2) {
                 return true;
             } else {
-                return str1.length() != str2.length() ? false : StringUtils.CharSequenceUtils.regionMatches(str1, true, 0, str2, 0, str1.length());
+                return str1.length() != str2.length() ? false : CharSequenceUtils.regionMatches(str1, true, 0, str2, 0, str1.length());
             }
         } else {
             return str1 == str2;
@@ -1521,5 +1521,18 @@ public class StringUtils {
         }
         return false;
     }
+    public static String coalesce(String... args) {
+        return coalesceBlank(args);
+    }
 
+    public static String coalesceBlank(String... args) {
+        String v = null;
+        for (String arg : args) {
+            v = arg;
+            if (isNotBlank(v)) {
+                break;
+            }
+        }
+        return v;
+    }
 }

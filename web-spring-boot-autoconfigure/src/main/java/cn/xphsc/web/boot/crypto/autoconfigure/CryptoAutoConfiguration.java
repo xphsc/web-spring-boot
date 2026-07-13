@@ -18,6 +18,7 @@ package cn.xphsc.web.boot.crypto.autoconfigure;
 
 import cn.xphsc.web.boot.crypto.advice.DecryptRequestBodyAdvice;
 import cn.xphsc.web.boot.crypto.advice.EncryptResponseBodyAdvice;
+import cn.xphsc.web.boot.crypto.resolver.DecryptArgumentResolver;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -35,7 +36,7 @@ import static cn.xphsc.web.common.WebBeanTemplate.*;
 @Configuration
 @Order(CRYPRO_PREFIX_ORDER)
 @ConditionalOnProperty(prefix = CRYPRO_PREFIX, name = ENABLED)
-@Import({DecryptRequestBodyAdvice.class, EncryptResponseBodyAdvice.class})
+@Import({DecryptRequestBodyAdvice.class, EncryptResponseBodyAdvice.class, DecryptArgumentResolver.class})
 @EnableConfigurationProperties(CryptoProperties.class)
 public class CryptoAutoConfiguration {
 

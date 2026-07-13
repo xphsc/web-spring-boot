@@ -28,7 +28,7 @@ import java.lang.annotation.Annotation;
 /**
  * {@link AbstractPointcutAdvisor}
  * @author <a href="xiongpeih@163.com">huipei.x</a>
- * @description:
+ * @description: Dict Pointcut Advisor
  * @since 1.0.0
  */
 public class DictPointcutAdvisor extends AbstractPointcutAdvisor implements ApplicationContextAware {
